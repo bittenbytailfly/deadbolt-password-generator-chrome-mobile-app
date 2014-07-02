@@ -2933,6 +2933,18 @@
 
 ;
 
+        Polymer('normal-checkbox', {
+            checked: false,
+            label: "Checkbox"
+        });
+    ;
+
+        Polymer('binding-test', {
+            checked: true,
+            label: "Label"
+        });
+    ;
+
  
     document.addEventListener('polymer-ready', function() {
         var navicon = document.getElementById('navicon');

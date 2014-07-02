@@ -36,6 +36,8 @@
     <link rel="import" href="bower_components/paper-toggle-button/paper-toggle-button.html">
     <link rel="import" href="bower_components/paper-slider/paper-slider.html">
     <link rel="import" href="bower_components/paper-input/paper-input.html">
+    <link rel="import" href="custom_components/normal-checkbox.html" />
+    <link rel="import" href="custom_components/binding-test.html" />
     <!-- [END imports] -->
 
     <style shim-shadowdom>
@@ -132,10 +134,12 @@
             </core-toolbar>
             <div class="content">
                 <paper-input floatinglabel label="Memorable Phrase" type="password"></paper-input>
+                <p><binding-test label="input"></binding-test></p>
             </div>
         </core-header-panel>
 
     </core-drawer-panel>
+
     <!-- [END html] -->
     <script>
  
@@ -149,3 +153,4 @@
     
     </script>
 </body>
+</html>
