@@ -23,7 +23,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
-    <title>paper-input</title>
+    <title>Deadbolt</title>
 
     <script src="bower_components/platform/platform.js"></script>
     <link rel="import" href="bower_components/core-toolbar/core-toolbar.html">
@@ -36,10 +36,9 @@
     <link rel="import" href="bower_components/paper-toggle-button/paper-toggle-button.html">
     <link rel="import" href="bower_components/paper-slider/paper-slider.html">
     <link rel="import" href="bower_components/paper-input/paper-input.html">
-    <link rel="import" href="custom_components/normal-checkbox.html" />
     <link rel="import" href="custom_components/binding-test.html" />
-    <!-- [END imports] -->
-
+    <link rel="import" href="custom_components/pin-option.html" />
+    
     <style shim-shadowdom>
              core-drawer-panel::shadow #drawer {
                  width: 80%;
@@ -55,12 +54,12 @@
              }
 
              core-toolbar {
-                 background-color: #333;
+                 background-color: #444;
                  color: #fff;
              }
 
              #navheader {
-                 background-color: #333;
+                 background-color: #444;
              }
 
              .content {
@@ -75,29 +74,39 @@
              #navicon {
                  fill: #fff;
              }
-
-        paper-toggle-button {
-            margin-right: 1em;
-        }
-
-        .option {
+        body /deep/ .option {
             margin: 2em;
         }
 
-        paper-toggle-button::shadow paper-radio-button::shadow #ink[checked] {
+        body /deep/ paper-toggle-button {
+            margin-right: 1em;
+        }
+
+        body /deep/ paper-toggle-button::shadow paper-radio-button::shadow #ink[checked] {
             color: #f00;
         }
 
-        paper-toggle-button::shadow paper-radio-button::shadow #onRadio {
+        body /deep/ paper-toggle-button::shadow paper-radio-button::shadow #onRadio {
             background-color: #f00;
         }
 
-        paper-toggle-button::shadow #toggleBar[checked] {
+        body /deep/ paper-toggle-button::shadow #toggleBar[checked] {
             background-color: #000;
         }
 
         paper-slider {
             width: 100%;
+        }
+
+        .green-slider paper-slider::shadow #sliderKnobInner,
+        .green-slider paper-slider::shadow #sliderKnobInner:before
+        {
+            background-color: #444;
+        }
+
+        .green-slider paper-slider::shadow #sliderBar::shadow #activeProgress,
+        .green-slider paper-slider::shadow #sliderBar::shadow #secondaryProgress {
+            background-color: #f00;
         }
     </style>
 
@@ -108,7 +117,7 @@
 
         <core-header-panel drawer mode="seamed">
             <core-toolbar id="navheader'">
-                <span>Menu</span>
+                <span>Settings</span>
             </core-toolbar>
             <div center horizontal layout class="option">
                 <div flex>Include Symbols</div>
@@ -121,9 +130,10 @@
             <div center horizontal layout class="option">
                 <div flex>Password Length: 15</div>
             </div>
-            <div center horizontal layout class="option">
-                <paper-slider pin snaps min="6" max="15" step="1"></paper-slider>
+            <div center horizontal layout class="option  green-slider">
+                <paper-slider pin min="6" max="15" step="1"></paper-slider>
             </div>
+            <pin-option></pin-option>
         </core-header-panel>
 
         <core-header-panel main mode="seamed">
@@ -134,7 +144,7 @@
             </core-toolbar>
             <div class="content">
                 <paper-input floatinglabel label="Memorable Phrase" type="password"></paper-input>
-                <p><binding-test label="input"></binding-test></p>
+               
             </div>
         </core-header-panel>
 

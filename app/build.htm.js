@@ -2945,6 +2945,26 @@
         });
     ;
 
+        Polymer('pin-number-input', {
+            label: 'Enter PIN Number',
+            validate: /[0-9]{4}/,
+            error: 'PIN must be four digits',
+            type: 'tel',
+            validateValue: function () {
+                console.log('validated');
+                this.super();
+                if (!this.invalid) {
+                    this.invalid = !this.inputValue;
+                }
+            },
+            ready: function () {
+                this.super();
+                this.validateValue();
+                this.$.input.maxLength = '4';
+            }
+        });
+    ;
+
  
     document.addEventListener('polymer-ready', function() {
         var navicon = document.getElementById('navicon');

@@ -1,12 +1,10 @@
 ﻿<link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="../bower_components/paper-toggle-button/paper-toggle-button.html">
-<link rel="import" href="normal-checkbox.html">
+<link rel="import" href="pin-option.html">
 
-<polymer-element name="binding-test" attributes="label checked">
+<polymer-element name="binding-test">
     <template>
-        <input type="checkbox" checked="{{ checked }}" /> {{ label }}
-        <br />
-        <paper-toggle-button  checked="{{ checked }}"></paper-toggle-button>
+        <input type="text" value="{{ pinNumber }}" />
+        <pin-option pinnumber="{{ pinNumber }}"></pin-option>
     </template>
     <script>
         Polymer('binding-test', {
