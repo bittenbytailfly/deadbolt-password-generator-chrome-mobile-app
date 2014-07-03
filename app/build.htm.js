@@ -2933,35 +2933,34 @@
 
 ;
 
-        Polymer('normal-checkbox', {
-            checked: false,
-            label: "Checkbox"
+        Polymer('pin-option', {
+            usePin: true,
+            get pinNumber() {
+                return 'not likely';
+            },
+            focusAction: function (e) {
+                e.target.value = '';
+            },
+            blurAction: function (e) {
+                if (e.target.value == '') {
+                    e.target.value = '0';
+                }
+            },
+            keyupAction: function (e) {
+                var activeItem = e.target.id.substring(3) * 1;
+                if (e.target.value.length == 1 && (activeItem) < 4) {
+                    this.shadowRoot.querySelector('#pin' + (activeItem + 1)).focus();
+                }
+                else if (e.target.value.length == 1 && (activeItem) == 4) {
+                    e.target.blur();
+                }
+            }
         });
     ;
 
         Polymer('binding-test', {
             checked: true,
             label: "Label"
-        });
-    ;
-
-        Polymer('pin-number-input', {
-            label: 'Enter PIN Number',
-            validate: /[0-9]{4}/,
-            error: 'PIN must be four digits',
-            type: 'tel',
-            validateValue: function () {
-                console.log('validated');
-                this.super();
-                if (!this.invalid) {
-                    this.invalid = !this.inputValue;
-                }
-            },
-            ready: function () {
-                this.super();
-                this.validateValue();
-                this.$.input.maxLength = '4';
-            }
         });
     ;
 

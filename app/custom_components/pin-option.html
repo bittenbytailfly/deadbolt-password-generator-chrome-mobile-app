@@ -23,10 +23,10 @@
             <paper-toggle-button checked="{{ usePin }}"></paper-toggle-button>
         </div>
         <div center horizontal layout class="option">
-            <input type="tel" id="pin1" maxlength="1" on-focus="{{ focusAction }}" />
-            <input type="tel" id="pin2" maxlength="1" />
-            <input type="tel" id="pin3" maxlength="1" />
-            <input type="tel" id="pin4" maxlength="1" />
+            <input type="tel" id="pin1" maxlength="1" on-focus="{{ focusAction }}" on-blur="{{ blurAction }}" on-keyup="{{ keyupAction }}" />
+            <input type="tel" id="pin2" maxlength="1" on-focus="{{ focusaction }}" on-blur="{{ blurAction }}" on-keyup="{{ keyupAction }}" />
+            <input type="tel" id="pin3" maxlength="1" on-focus="{{ focusaction }}" on-blur="{{ blurAction }}" on-keyup="{{ keyupAction }}" />
+            <input type="tel" id="pin4" maxlength="1" on-focus="{{ focusaction }}" on-blur="{{ blurAction }}" on-keyup="{{ keyupAction }}" />
         </div>
     </template>
     <script>
@@ -36,8 +36,21 @@
                 return 'not likely';
             },
             focusAction: function (e) {
-                console.log(e.target);
                 e.target.value = '';
+            },
+            blurAction: function (e) {
+                if (e.target.value == '') {
+                    e.target.value = '0';
+                }
+            },
+            keyupAction: function (e) {
+                var activeItem = e.target.id.substring(3) * 1;
+                if (e.target.value.length == 1 && (activeItem) < 4) {
+                    this.shadowRoot.querySelector('#pin' + (activeItem + 1)).focus();
+                }
+                else if (e.target.value.length == 1 && (activeItem) == 4) {
+                    e.target.blur();
+                }
             }
         });
     </script>
