@@ -2,7 +2,7 @@
 <link rel="import" href="../bower_components/paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 
-<polymer-element name="pin-option" attributes="usePin">
+<polymer-element name="pin-option" attributes="usePin pinNumber">
     <template>
         <style>
             input[type=tel] {
@@ -29,10 +29,10 @@
         Polymer('pin-option', {
             usePin: false,
             get pinNumber() {
-                var pin = this.$.pin1 + '' 
-                    + this.$.pin2 + '' 
-                    +this.$.pin3 + ''
-                    +this.$.pin4;
+                var pin = this.element.shadowRoot.querySelector('#pin1') + ''
+                    + this.element.shadowRoot.querySelector('#pin2') + ''
+                    + this.element.shadowRoot.querySelector('#pin3') + ''
+                    + this.element.shadowRoot.querySelector('#pin4');
                 return pin == '' ? '0000' : pin;
             },
             focusAction: function (e) {

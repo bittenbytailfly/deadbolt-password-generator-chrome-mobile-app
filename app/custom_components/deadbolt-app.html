@@ -127,7 +127,7 @@
                     <div flex>Use PIN Number</div>
                     <paper-toggle-button checked="{{usePin}}"></paper-toggle-button>
                 </div>
-                <pin-option usepin="{{usePin}}"></pin-option>
+                <pin-option usepin="{{usePin}}" pinnumber="{{pinNumber}}"></pin-option>
             </core-header-panel>
 
             <core-header-panel main mode="seamed">
@@ -139,7 +139,7 @@
                 </core-toolbar>
                 <div class="content">
                     <paper-input floatinglabel label="Memorable Phrase" type="password"></paper-input>
-
+                    <input type="text" value="{{pinNumber}}" />
                 </div>
             </core-header-panel>
 
