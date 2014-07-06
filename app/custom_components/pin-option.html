@@ -2,7 +2,7 @@
 <link rel="import" href="../bower_components/paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 
-<polymer-element name="pin-option" attributes="usepin">
+<polymer-element name="pin-option" attributes="usePin">
     <template>
         <style>
             input[type=tel] {
@@ -18,16 +18,16 @@
                 font-style: italic;
             }
         </style>
-        <div center horizontal layout class="option">
+        <div center horizontal layout class="option" style="visibility: {{usePin ? 'visible' : 'hidden'}}">
             <input type="tel" id="pin1" maxlength="1" on-focus="{{ focusAction }}" on-blur="{{ blurAction }}" on-keyup="{{ keyupAction }}" />
-            <input type="tel" id="pin2" maxlength="1" on-focus="{{ focusaction }}" on-blur="{{ blurAction }}" on-keyup="{{ keyupAction }}" />
-            <input type="tel" id="pin3" maxlength="1" on-focus="{{ focusaction }}" on-blur="{{ blurAction }}" on-keyup="{{ keyupAction }}" />
-            <input type="tel" id="pin4" maxlength="1" on-focus="{{ focusaction }}" on-blur="{{ blurAction }}" on-keyup="{{ keyupAction }}" />
+            <input type="tel" id="pin2" maxlength="1" on-focus="{{ focusAction }}" on-blur="{{ blurAction }}" on-keyup="{{ keyupAction }}" />
+            <input type="tel" id="pin3" maxlength="1" on-focus="{{ focusAction }}" on-blur="{{ blurAction }}" on-keyup="{{ keyupAction }}" />
+            <input type="tel" id="pin4" maxlength="1" on-focus="{{ focusAction }}" on-blur="{{ blurAction }}" on-keyup="{{ keyupAction }}" />
         </div>
     </template>
     <script>
         Polymer('pin-option', {
-            usePin: true,
+            usePin: false,
             get pinNumber() {
                 var pin = this.$.pin1 + '' 
                     + this.$.pin2 + '' 
@@ -36,7 +36,7 @@
                 return pin == '' ? '0000' : pin;
             },
             focusAction: function (e) {
-                e.target.select();
+                e.target.value = '';
             },
             blurAction: function (e) {
                 if (e.target.value == '') {
