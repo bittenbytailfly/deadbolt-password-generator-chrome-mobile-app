@@ -1,4 +1,4 @@
-﻿<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 
@@ -19,10 +19,6 @@
             }
         </style>
         <div center horizontal layout class="option">
-            <div flex>Use PIN Number</div>
-            <paper-toggle-button checked="{{ usePin }}"></paper-toggle-button>
-        </div>
-        <div center horizontal layout class="option">
             <input type="tel" id="pin1" maxlength="1" on-focus="{{ focusAction }}" on-blur="{{ blurAction }}" on-keyup="{{ keyupAction }}" />
             <input type="tel" id="pin2" maxlength="1" on-focus="{{ focusaction }}" on-blur="{{ blurAction }}" on-keyup="{{ keyupAction }}" />
             <input type="tel" id="pin3" maxlength="1" on-focus="{{ focusaction }}" on-blur="{{ blurAction }}" on-keyup="{{ keyupAction }}" />
@@ -33,10 +29,14 @@
         Polymer('pin-option', {
             usePin: true,
             get pinNumber() {
-                return 'not likely';
+                var pin = this.$.pin1 + '' 
+                    + this.$.pin2 + '' 
+                    +this.$.pin3 + ''
+                    +this.$.pin4;
+                return pin == '' ? '0000' : pin;
             },
             focusAction: function (e) {
-                e.target.value = '';
+                e.target.select();
             },
             blurAction: function (e) {
                 if (e.target.value == '') {
