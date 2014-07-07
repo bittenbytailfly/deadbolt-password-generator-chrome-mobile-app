@@ -148,11 +148,12 @@
     <script>
         Polymer('deadbolt-app', {
             ready: function () {
-                    var navicon = this.$.navicon;
-                    var drawerPanel = this.$.drawerPanel;
-                    navicon.addEventListener('click', function () {
-                        drawerPanel.togglePanel();
-                    });
+                this.super();
+                var navicon = this.$.navicon;
+                var drawerPanel = this.$.drawerPanel;
+                navicon.addEventListener('click', function () {
+                    drawerPanel.togglePanel();
+                });
             }
         });
     </script>

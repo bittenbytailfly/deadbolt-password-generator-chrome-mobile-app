@@ -28,20 +28,15 @@
     <script>
         Polymer('pin-option', {
             usePin: false,
-            get pinNumber() {
-                var pin = this.element.shadowRoot.querySelector('#pin1') + ''
-                    + this.element.shadowRoot.querySelector('#pin2') + ''
-                    + this.element.shadowRoot.querySelector('#pin3') + ''
-                    + this.element.shadowRoot.querySelector('#pin4');
-                return pin == '' ? '0000' : pin;
-            },
+            pinNumber: '0000',
             focusAction: function (e) {
                 e.target.value = '';
             },
             blurAction: function (e) {
-                if (e.target.value == '') {
+                if (e.target.value == '' || !/^[0-9]{1}/.test(e.target.value)) {
                     e.target.value = '0';
                 }
+                this.readPinValue();
             },
             keyupAction: function (e) {
                 var activeItem = e.target.id.substring(3) * 1;
@@ -51,6 +46,20 @@
                 else if (e.target.value.length == 1 && (activeItem) == 4) {
                     e.target.blur();
                 }
+                this.readPinValue();
+            },
+            readPinValue: function(){
+                this.pinNumber = this.$.pin1.value + '' +
+                    this.$.pin2.value +
+                    this.$.pin3.value +
+                    this.$.pin4.value;
+            },
+            ready: function() {
+                this.super();
+                this.$.pin1.value = this.pinNumber.substr(0, 1);
+                this.$.pin2.value = this.pinNumber.substr(1, 1);
+                this.$.pin3.value = this.pinNumber.substr(2, 1);
+                this.$.pin4.value = this.pinNumber.substr(3, 1);
             }
         });
     </script>
