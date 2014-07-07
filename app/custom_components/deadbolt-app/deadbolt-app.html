@@ -29,6 +29,7 @@
 <link rel="import" href="../../bower_components/paper-slider/paper-slider.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../pin-option/pin-option.html" />
+<link rel="import" href="../password-generator/password-generator.html" />
 
 <polymer-element name="deadbolt-app">
     <template>
@@ -64,13 +65,13 @@
             <core-header-panel main mode="seamed">
                 <core-toolbar id="mainheader">
                     <span flex>
-                        <img src="../../img/deadbolt-logo.png" style="height:30px;margin-top:5px;" />
+                        <img src="deadbolt-logo.png" style="height:30px;margin-top:5px;" />
                     </span>
                     <paper-icon-button id="navicon" icon="menu"></paper-icon-button>
                 </core-toolbar>
                 <div class="content">
-                    <paper-input floatinglabel label="Memorable Phrase" type="password"></paper-input>
-                    <input type="text" value="{{pinNumber}}" />
+                    <paper-input floatinglabel label="Memorable Phrase" type="password" inputvalue="{{passPhrase}}"></paper-input>
+                    <password-generator passphrase="{{passPhrase}}" includesymbols="{{includeSymbols}}" casesensitive="{{caseSensitive}}" passwordlength="{{passwordLength}}" pinnumber="{{pinNumber}}"></password-generator>
                 </div>
             </core-header-panel>
 
@@ -83,6 +84,7 @@
             passwordLength: 15,
             usePin: false,
             pinNumber: '0000',
+            passPhrase: '',
             ready: function () {
                 this.super();
                 var navicon = this.$.navicon;
