@@ -1,23 +1,10 @@
-<link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="../bower_components/paper-toggle-button/paper-toggle-button.html">
-<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-toggle-button/paper-toggle-button.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
 
 <polymer-element name="pin-option" attributes="usePin pinNumber">
     <template>
-        <style>
-            input[type=tel] {
-                color: #f00;
-                text-align: center;
-                width: 25%;
-                height: 2em;
-                margin: 0 1em;
-                font-weight: bold;
-                color: #444;
-                border: solid 1px #f00;
-                border-top: none;
-                font-style: italic;
-            }
-        </style>
+        <link href="pin-option.css" rel="stylesheet" />
         <div center horizontal layout class="option" style="visibility: {{usePin ? 'visible' : 'hidden'}}">
             <input type="tel" id="pin1" maxlength="1" on-focus="{{ focusAction }}" on-blur="{{ blurAction }}" on-keyup="{{ keyupAction }}" />
             <input type="tel" id="pin2" maxlength="1" on-focus="{{ focusAction }}" on-blur="{{ blurAction }}" on-keyup="{{ keyupAction }}" />

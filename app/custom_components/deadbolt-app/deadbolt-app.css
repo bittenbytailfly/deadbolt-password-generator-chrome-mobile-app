@@ -1,0 +1,90 @@
+﻿/*
+    Copyright 2014 Ed Carter
+
+    This file is part of Deadbolt Password Generator.
+
+    Deadbolt Password Generator is free software: you can redistribute
+    it and/or modify it under the terms of the GNU General Public
+    License as published by the Free Software Foundation, either
+    version 3 of the License, or (at your option) any later version.
+
+    Deadbolt Password Generator is distributed in the hope that it
+    will be useful, but WITHOUT ANY WARRANTY; without even the implied
+    warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+    See the GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Deadbolt Password Generator.  If not, see
+    <http://www.gnu.org/licenses/>.
+*/
+body {
+}
+
+core-drawer-panel::shadow #drawer {
+    width: 80%;
+}
+
+:host {
+    font-family: RobotoDraft, 'Roboto', 'Helvetica Neue', Helvetica, Arial;
+    font-size: 0.8em;
+}
+
+core-header-panel {
+    background: white;
+}
+
+core-toolbar {
+    background-color: #444;
+    color: #fff;
+}
+
+#navheader {
+    background-color: #444;
+}
+
+.content {
+    padding: 20px;
+}
+/* drawer is always visible on a wide screen
+            so menu button isn't required */
+core-drawer-panel:not([narrow]) #navicon {
+    display: none;
+}
+
+#navicon {
+    fill: #fff;
+}
+
+:host /deep/ .option {
+    margin: 2em;
+}
+
+:host /deep/ paper-toggle-button {
+    margin-right: 1em;
+}
+
+:host /deep/ paper-toggle-button::shadow paper-radio-button::shadow #ink[checked] {
+    color: #f00;
+}
+
+:host /deep/ paper-toggle-button::shadow paper-radio-button::shadow #onRadio {
+    background-color: #f00;
+}
+
+:host /deep/ paper-toggle-button::shadow #toggleBar[checked] {
+    background-color: #000;
+}
+
+paper-slider {
+    width: 100%;
+}
+
+paper-slider::shadow #sliderKnobInner,
+paper-slider::shadow #sliderKnobInner:before {
+    background-color: #444;
+}
+
+paper-slider::shadow #sliderBar::shadow #activeProgress,
+paper-slider::shadow #sliderBar::shadow #secondaryProgress {
+    background-color: #f00;
+}
