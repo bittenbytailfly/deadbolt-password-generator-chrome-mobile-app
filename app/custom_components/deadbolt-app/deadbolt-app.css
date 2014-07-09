@@ -17,8 +17,6 @@
     along with Deadbolt Password Generator.  If not, see
     <http://www.gnu.org/licenses/>.
 */
-body {
-}
 
 core-drawer-panel::shadow #drawer {
     width: 80%;
@@ -26,6 +24,9 @@ core-drawer-panel::shadow #drawer {
 
 :host {
     font-family: RobotoDraft, 'Roboto', 'Helvetica Neue', Helvetica, Arial;
+}
+
+.option, core-toolbar {
     font-size: 0.8em;
 }
 
@@ -36,6 +37,10 @@ core-header-panel {
 core-toolbar {
     background-color: #444;
     color: #fff;
+}
+
+.toggle {
+    margin-bottom: 1em;
 }
 
 #navheader {

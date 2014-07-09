@@ -28,8 +28,9 @@
 <link rel="import" href="../../bower_components/paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="../../bower_components/paper-slider/paper-slider.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../pin-option/pin-option.html" />
-<link rel="import" href="../password-generator/password-generator.html" />
+<link rel="import" href="../password-reveal/password-reveal.html" />
 
 <polymer-element name="deadbolt-app">
     <template>
@@ -41,6 +42,10 @@
                 <core-toolbar id="navheader'">
                     <span>Settings</span>
                 </core-toolbar>
+                <div center horizontal layout class="option">
+                    <div flex>Show Memorable Phrase</div>
+                    <paper-toggle-button checked="{{hidePhrase}}"></paper-toggle-button>
+                </div>
                 <div center horizontal layout class="option">
                     <div flex>Include Symbols</div>
                     <paper-toggle-button checked="{{includeSymbols}}"></paper-toggle-button>
@@ -70,8 +75,8 @@
                     <paper-icon-button id="navicon" icon="menu"></paper-icon-button>
                 </core-toolbar>
                 <div class="content">
-                    <paper-input floatinglabel label="Memorable Phrase" type="password" inputvalue="{{passPhrase}}"></paper-input>
-                    <password-generator passphrase="{{passPhrase}}" includesymbols="{{includeSymbols}}" casesensitive="{{caseSensitive}}" passwordlength="{{passwordLength}}" pinnumber="{{pinNumber}}"></password-generator>
+                    <paper-input floatinglabel label="Memorable Phrase" type="{{hidePhrase ? 'text' : 'password'}}" inputvalue="{{passPhrase}}"></paper-input>
+                    <password-reveal passphrase="{{passPhrase}}" includesymbols="{{includeSymbols}}" casesensitive="{{caseSensitive}}" passwordlength="{{passwordLength}}" pinnumber="{{pinNumber}}"></password-reveal>
                 </div>
             </core-header-panel>
 
@@ -79,6 +84,7 @@
     </template>
     <script>
         Polymer('deadbolt-app', {
+            hidePhrase: false,
             includeSymbols: true,
             caseSensitive: true,
             passwordLength: 15,
