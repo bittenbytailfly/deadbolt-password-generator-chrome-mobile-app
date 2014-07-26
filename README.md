@@ -41,9 +41,9 @@ a mobile app using Cordova (instructions coming soon).
 
 You will need Phonegap, Cordova and CCA in order to make use of the plugins:
 
-`npm install -g phonegap
-npm install -g cordova
-npm install -g cca`
+`npm install -g phonegap`
+`npm install -g cordova`
+`npm install -g cca`
 
 First, you need to create the mobile app - navigate to the root folder
 and run the following command:
@@ -52,8 +52,8 @@ and run the following command:
 
 Then we need to install the plugins:
 
-`cordova plugins add https://github.com/wildabeast/BarcodeScanner.git
-phonegap local plugin add https://github.com/VersoSolutions/CordovaClipboard`
+`cordova plugins add https://github.com/wildabeast/BarcodeScanner.git`
+`phonegap local plugin add https://github.com/VersoSolutions/CordovaClipboard`
 
 To build the application firstly prepare the app by running the following command
 in the newly created 'deadbolt' folder:
