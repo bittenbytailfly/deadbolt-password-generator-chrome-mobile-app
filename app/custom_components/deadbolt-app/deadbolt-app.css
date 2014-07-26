@@ -80,6 +80,20 @@ core-drawer-panel:not([narrow]) #navicon {
     background-color: #000;
 }
 
+:host /deep/ paper-input::shadow #underlineHighlight.focusedColor {
+    background: #f00;
+    border-bottom-color: #f00;
+}
+
+:host /deep/ paper-input::shadow #caretInner.focusedColor {
+    background: #f00;
+    color: #f00;
+}
+
+:host /deep/ paper-input::shadow .focusedColor {
+    color: #444;
+}
+
 paper-slider {
     width: 100%;
 }
@@ -92,4 +106,12 @@ paper-slider::shadow #sliderKnobInner:before {
 paper-slider::shadow #sliderBar::shadow #activeProgress,
 paper-slider::shadow #sliderBar::shadow #secondaryProgress {
     background-color: #f00;
+}
+
+#toggleShowPhrase {
+    margin-bottom: 1em;
+}
+
+#settingsDrawer{
+    min-height: 100%;
 }

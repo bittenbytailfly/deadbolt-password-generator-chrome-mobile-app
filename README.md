@@ -36,3 +36,30 @@ Once installed run the following command:
 
 This will create a Chrome App, which can in turn be converted into
 a mobile app using Cordova (instructions coming soon).
+
+# Packaging for Mobile
+
+You will need Phonegap, Cordova and CCA in order to make use of the plugins:
+
+`npm install -g phonegap
+npm install -g cordova
+npm install -g cca`
+
+First, you need to create the mobile app - navigate to the root folder
+and run the following command:
+
+`cca create deadbolt --link-to=app/manifest.json`
+
+Then we need to install the plugins:
+
+`cordova plugins add https://github.com/wildabeast/BarcodeScanner.git
+phonegap local plugin add https://github.com/VersoSolutions/CordovaClipboard`
+
+To build the application firstly prepare the app by running the following command
+in the newly created 'deadbolt' folder:
+
+`cca prepare`
+
+Now, from there navigate to /platforms/android/cordova and run:
+
+`build --debug`
