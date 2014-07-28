@@ -45,10 +45,6 @@
                     <span>Settings</span>
                 </core-toolbar>
                 <div vertical layout fit>
-                    <paper-tabs selected="{{activeTab}}" id="settingsTabs">
-                        <paper-tab class="supp">Custom</paper-tab>
-                        <paper-tab class="supp">Profile</paper-tab>
-                    </paper-tabs>
                     <div flex id="settings">
                         <div id="customSettings">
                             <div center horizontal layout class="option">
@@ -72,8 +68,6 @@
                             <pin-option usepin="{{usePin}}" pinnumber="{{pinNumber}}"></pin-option>
                         </div>
                     </div>
-                    <paper-item class="supp" icon="file-download">Import Settings</paper-item>
-                    <paper-item class="supp" icon="info-outline">About</paper-item>
                 </div>
             </core-header-panel>
 
@@ -94,8 +88,6 @@
                         <password-reveal passphrase="{{passPhrase}}" includesymbols="{{includeSymbols}}" casesensitive="{{caseSensitive}}" passwordlength="{{passwordLength}}" pinnumber="{{pinNumber}}"></password-reveal>
                     </div>
                 </div>
-
-                <input type="button" on-click="{{scanBarcode}}" value="Scan" />
 
             </core-header-panel>
 
