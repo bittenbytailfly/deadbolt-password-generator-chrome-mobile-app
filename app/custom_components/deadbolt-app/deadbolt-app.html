@@ -28,6 +28,8 @@
 <link rel="import" href="../../bower_components/paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="../../bower_components/paper-slider/paper-slider.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../pin-option/pin-option.html" />
 <link rel="import" href="../password-reveal/password-reveal.html" />
@@ -38,34 +40,42 @@
 
         <core-drawer-panel id="drawerPanel" class="right-drawer">
 
-            <core-header-panel drawer mode="seamed" id="settingsDrawer" vertical layout>
+            <core-header-panel drawer mode="seamed">
                 <core-toolbar id="navheader'">
                     <span>Settings</span>
                 </core-toolbar>
-
-                    <div flex>
-                        <div center horizontal layout class="option">
-                            <div flex>Include Symbols</div>
-                            <paper-toggle-button checked="{{includeSymbols}}"></paper-toggle-button>
+                <div vertical layout fit>
+                    <paper-tabs selected="{{activeTab}}" id="settingsTabs">
+                        <paper-tab class="supp">Custom</paper-tab>
+                        <paper-tab class="supp">Profile</paper-tab>
+                    </paper-tabs>
+                    <div flex id="settings">
+                        <div id="customSettings">
+                            <div center horizontal layout class="option">
+                                <div flex>Include Symbols</div>
+                                <paper-toggle-button checked="{{includeSymbols}}"></paper-toggle-button>
+                            </div>
+                            <div center horizontal layout class="option">
+                                <div flex>Case Sensitive</div>
+                                <paper-toggle-button checked="{{caseSensitive}}"></paper-toggle-button>
+                            </div>
+                            <div center horizontal layout class="option">
+                                <div flex>Password Length: {{passwordLength}}</div>
+                            </div>
+                            <div center horizontal layout class="option  green-slider">
+                                <paper-slider pin min="6" max="15" step="1" value="{{passwordLength}}"></paper-slider>
+                            </div>
+                            <div center horizontal layout class="option">
+                                <div flex>Use PIN Number</div>
+                                <paper-toggle-button checked="{{usePin}}"></paper-toggle-button>
+                            </div>
+                            <pin-option usepin="{{usePin}}" pinnumber="{{pinNumber}}"></pin-option>
                         </div>
-                        <div center horizontal layout class="option">
-                            <div flex>Case Sensitive</div>
-                            <paper-toggle-button checked="{{caseSensitive}}"></paper-toggle-button>
-                        </div>
-                        <div center horizontal layout class="option">
-                            <div flex>Password Length: {{passwordLength}}</div>
-                        </div>
-                        <div center horizontal layout class="option  green-slider">
-                            <paper-slider pin min="6" max="15" step="1" value="{{passwordLength}}"></paper-slider>
-                        </div>
-                        <div center horizontal layout class="option">
-                            <div flex>Use PIN Number</div>
-                            <paper-toggle-button checked="{{usePin}}"></paper-toggle-button>
-                        </div>
-                        <pin-option usepin="{{usePin}}" pinnumber="{{pinNumber}}"></pin-option>
                     </div>
-                    <div>About</div>
-</core-header-panel>
+                    <paper-item class="supp" icon="file-download">Import Settings</paper-item>
+                    <paper-item class="supp" icon="info-outline">About</paper-item>
+                </div>
+            </core-header-panel>
 
             <core-header-panel main mode="seamed">
                 <core-toolbar id="mainheader">

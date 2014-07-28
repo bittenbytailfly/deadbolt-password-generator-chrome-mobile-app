@@ -25,14 +25,21 @@
 
     <title>Deadbolt</title>
 
+    <style>
+        body[unresolved] {
+            background-color: #f00;
+            /* other custom styles for unresolved elements */
+        }
+    </style>
+    
+</head>
+<body unresolved fullbleed>
+
+    <deadbolt-app></deadbolt-app>
+
     <script src="bower_components/platform/platform.js"></script>
     <link rel="import" href="bower_components/polymer/polymer.html">
     <link rel="import" href="custom_components/deadbolt-app/deadbolt-app.html" />
-    
-</head>
-<body unresolved fullbleed vertical layout>
-
-    <deadbolt-app></deadbolt-app>
 
 </body>
 </html>
