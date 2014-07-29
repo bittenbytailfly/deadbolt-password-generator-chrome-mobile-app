@@ -5,16 +5,16 @@
 <link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 
-<polymer-element name="profile-options" attributes="selectedProfile">
+<polymer-element name="profile-options" attributes="selectedProfile settingsType">
     <template>
         <link rel="stylesheet" href="profile-options.css" />
         <div vertical layout fit>
-            <paper-tabs selected="{{settingsType == 'customSetting' ? 0 : 1}}" id="settingsTabs">
+            <paper-tabs selected="{{selectedTab == 'customSetting' ? 0 : 1}}" id="settingsTabs">
                 <paper-tab class="supp" id="customSetting">Custom</paper-tab>
                 <paper-tab class="supp" id="profileSetting">Profile</paper-tab>
             </paper-tabs>
             <div flex id="settings">
-                <div id="customSettings">
+                <div id="customSettings" style="display: {{selectedTab == 'customSetting' ? 'block' : 'none'}}">
                     <div center horizontal layout class="option">
                         <div flex>Include Symbols</div>
                         <paper-toggle-button checked="{{includeSymbols}}"></paper-toggle-button>
@@ -35,6 +35,13 @@
                     </div>
                     <pin-option usepin="{{usePin}}" pinnumber="{{pinNumber}}"></pin-option>
                 </div>
+                <div id="profileSettings" style="display: {{selectedTab == 'profileSetting' ? 'block' : 'none'}}">
+                    <core-menu on-core-select="{{profileSelectAction}}">
+                        <paper-item>Standard</paper-item>
+                        <paper-item>Social Networking</paper-item>
+                        <paper-item>High Security</paper-item>
+                    </core-menu>
+                </div>
             </div>
             <paper-item class="supp" icon="file-download">Import Settings</paper-item>
             <paper-item class="supp" icon="info-outline">About</paper-item>
@@ -42,7 +49,6 @@
     </template>
     <script>
         Polymer('profile-options', {
-            selectedProfile: {},
             settingsType: 'customSetting',
             includeSymbols: true,
             caseSensitive: true,
@@ -55,7 +61,11 @@
                 this.setCustomSettings();
                 this.$.settingsTabs.addEventListener('core-activate', function (e) {
                     if (e.detail.item.id == 'customSetting') {
+                        self.selectedTab = 'customSetting';
                         self.setCustomSettings();
+                    }
+                    else {
+                        self.selectedTab = 'profileSetting';
                     }
                 });
             },
@@ -84,6 +94,14 @@
             },
             pinNumberChanged: function () {
                 this.setCustomSettings();
+            },
+            profileSelectAction: function (e) {
+                console.log(e);
+                this.settingsType = 'profileSetting';
+                //this.selectedProfile = TODO: populate profile settings.
+                if (e.detail.isSelected) {
+                    this.fire('profileSelected');
+                }
             }
         });
     </script>
