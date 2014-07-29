@@ -1,0 +1,39 @@
+﻿<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-toggle-button/paper-toggle-button.html">
+<link rel="import" href="../../bower_components/paper-slider/paper-slider.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+
+<polymer-element name="profile-options" attributes="selectedProfile">
+    <template>
+        <link rel="stylesheet" href="profile-options.css" />
+        <div id="customSettings">
+            <div center horizontal layout class="option">
+                <div flex>Include Symbols</div>
+                <paper-toggle-button checked="{{includeSymbols}}"></paper-toggle-button>
+            </div>
+            <div center horizontal layout class="option">
+                <div flex>Case Sensitive</div>
+                <paper-toggle-button checked="{{caseSensitive}}"></paper-toggle-button>
+            </div>
+            <div center horizontal layout class="option">
+                <div flex>Password Length: {{passwordLength}}</div>
+            </div>
+            <div center horizontal layout class="option  green-slider">
+                <paper-slider pin min="6" max="15" step="1" value="{{passwordLength}}"></paper-slider>
+            </div>
+            <div center horizontal layout class="option">
+                <div flex>Use PIN Number</div>
+                <paper-toggle-button checked="{{usePin}}"></paper-toggle-button>
+            </div>
+            <pin-option usepin="{{usePin}}" pinnumber="{{pinNumber}}"></pin-option>
+        </div>
+    </template>
+    <script>
+        Polymer('profile-options', {
+            selectedProfile: {},
+            ready: function() {
+                this.super();
+            }
+        });
+    </script>
+</polymer-element>
