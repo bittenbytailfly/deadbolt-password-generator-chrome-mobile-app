@@ -74,8 +74,8 @@
     </template>
     <script>
         Polymer('deadbolt-app', {
-            showPhrase: false,
             selectedProfile: {},
+            showPhrase: false,
             passPhrase: '',
             ready: function () {
                 this.super();
@@ -86,7 +86,7 @@
                 });
             },
             scanBarcode: function () {
-                console.log('scanning');
+                console.log(this.selectedProfile);
                 cordova.plugins.barcodeScanner.scan(
                   function (result) {
                       alert("We got a barcode\n" +

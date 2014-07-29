@@ -13,7 +13,6 @@
         </div>
     </template>
     <script>
-        //TODO: Need to observer the usePin property to reset PIN to zeros on off.
         Polymer('pin-option', {
             usePin: false,
             pinNumber: '0000',
@@ -42,12 +41,21 @@
                     this.$.pin3.value +
                     this.$.pin4.value;
             },
-            ready: function() {
-                this.super();
+            setPinValue: function() {
                 this.$.pin1.value = this.pinNumber.substr(0, 1);
                 this.$.pin2.value = this.pinNumber.substr(1, 1);
                 this.$.pin3.value = this.pinNumber.substr(2, 1);
                 this.$.pin4.value = this.pinNumber.substr(3, 1);
+            },
+            ready: function() {
+                this.super();
+                this.setPinValue();
+            },
+            usePinChanged: function () {
+                if (this.usePin == false) {
+                    this.pinNumber = '0000';
+                    this.setPinValue();
+                }
             }
         });
     </script>

@@ -9,31 +9,31 @@
     <template>
         <link rel="stylesheet" href="profile-options.css" />
         <div vertical layout fit>
-            <paper-tabs selected="0" id="settingsTabs">
-                <paper-tab class="supp">Custom</paper-tab>
-                <paper-tab class="supp">Profile</paper-tab>
+            <paper-tabs selected="{{settingsType == 'customSetting' ? 0 : 1}}" id="settingsTabs">
+                <paper-tab class="supp" id="customSetting">Custom</paper-tab>
+                <paper-tab class="supp" id="profileSetting">Profile</paper-tab>
             </paper-tabs>
             <div flex id="settings">
                 <div id="customSettings">
                     <div center horizontal layout class="option">
                         <div flex>Include Symbols</div>
-                        <paper-toggle-button checked="{{selectedProfile.includeSymbols}}"></paper-toggle-button>
+                        <paper-toggle-button checked="{{includeSymbols}}"></paper-toggle-button>
                     </div>
                     <div center horizontal layout class="option">
                         <div flex>Case Sensitive</div>
-                        <paper-toggle-button checked="{{selectedProfile.caseSensitive}}"></paper-toggle-button>
+                        <paper-toggle-button checked="{{caseSensitive}}"></paper-toggle-button>
                     </div>
                     <div center horizontal layout class="option">
-                        <div flex>Password Length: {{selectedProfile.passwordLength}}</div>
+                        <div flex>Password Length: {{passwordLength}}</div>
                     </div>
                     <div center horizontal layout class="option  green-slider">
-                        <paper-slider pin min="6" max="15" step="1" value="{{selectedProfile.passwordLength}}"></paper-slider>
+                        <paper-slider pin min="6" max="15" step="1" value="{{passwordLength}}"></paper-slider>
                     </div>
                     <div center horizontal layout class="option">
                         <div flex>Use PIN Number</div>
-                        <paper-toggle-button checked="{{selectedProfile.usePin}}"></paper-toggle-button>
+                        <paper-toggle-button checked="{{usePin}}"></paper-toggle-button>
                     </div>
-                    <pin-option usepin="{{selectedProfile.usePin}}" pinnumber="{{selectedProfile.pinNumber}}"></pin-option>
+                    <pin-option usepin="{{usePin}}" pinnumber="{{pinNumber}}"></pin-option>
                 </div>
             </div>
             <paper-item class="supp" icon="file-download">Import Settings</paper-item>
@@ -42,17 +42,48 @@
     </template>
     <script>
         Polymer('profile-options', {
-            ready: function() {
+            selectedProfile: {},
+            settingsType: 'customSetting',
+            includeSymbols: true,
+            caseSensitive: true,
+            passwordLength: 15,
+            usePin: false,
+            pinNumber: '0000',
+            ready: function () {
+                var self = this;
                 this.super();
+                this.setCustomSettings();
+                this.$.settingsTabs.addEventListener('core-activate', function (e) {
+                    if (e.detail.item.id == 'customSetting') {
+                        self.setCustomSettings();
+                    }
+                });
+            },
+            setCustomSettings: function () {
+                this.settingsType = 'customSetting';
                 this.selectedProfile = {
-                    type: 'Custom Settings',
                     name: '',
-                    includeSymbols: true,
-                    caseSensitive: true,
-                    passwordLength: 15,
-                    usePin: false,
-                    pinNumber: '0000'
-                }
+                    includeSymbols: this.includeSymbols,
+                    caseSensitive: this.caseSensitive,
+                    passwordLength: this.passwordLength,
+                    usePin: this.usePin,
+                    pinNumber: this.pinNumber
+                };
+            },
+            includeSymbolsChanged: function () {
+                this.setCustomSettings();
+            },
+            caseSensitiveChanged: function () {
+                this.setCustomSettings();
+            },
+            passwordLengthChanged: function () {
+                this.setCustomSettings();
+            },
+            usePinChanged: function () {
+                this.setCustomSettings();
+            },
+            pinNumberChanged: function () {
+                this.setCustomSettings();
             }
         });
     </script>
