@@ -1,2 +1,36 @@
-﻿body {
+﻿paper-slider {
+    width: 100%;
+}
+
+paper-slider::shadow #sliderKnobInner,
+paper-slider::shadow #sliderKnobInner:before {
+    background-color: #444;
+}
+
+paper-slider::shadow #sliderBar::shadow #activeProgress,
+paper-slider::shadow #sliderBar::shadow #secondaryProgress {
+    background-color: #f00;
+}
+
+paper-tab.supp {
+    background-color: #eee;
+}
+
+#settings {
+     overflow-x: hidden;
+     overflow-y: auto;
+}
+
+paper-tab::shadow #ink {
+  color: #999;
+}
+
+paper-tabs::shadow #selectionBar {
+    background-color: #900;
+}
+
+paper-item.supp {
+    padding: 0.5em;
+    border-top: 1px solid #ddd;
+    background-color: #eee;
 }

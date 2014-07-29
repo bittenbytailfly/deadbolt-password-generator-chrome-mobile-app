@@ -33,6 +33,7 @@
 <link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../pin-option/pin-option.html" />
 <link rel="import" href="../password-reveal/password-reveal.html" />
+<link rel="import" href="../profile-options/profile-options.html" />
 
 <polymer-element name="deadbolt-app">
     <template>
@@ -44,37 +45,7 @@
                 <core-toolbar id="navheader'">
                     <span>Settings</span>
                 </core-toolbar>
-                <div vertical layout fit>
-                    <paper-tabs selected="{{activeTab}}" id="settingsTabs">
-                        <paper-tab class="supp">Custom</paper-tab>
-                        <paper-tab class="supp">Profile</paper-tab>
-                    </paper-tabs>
-                    <div flex id="settings">
-                        <div id="customSettings">
-                            <div center horizontal layout class="option">
-                                <div flex>Include Symbols</div>
-                                <paper-toggle-button checked="{{includeSymbols}}"></paper-toggle-button>
-                            </div>
-                            <div center horizontal layout class="option">
-                                <div flex>Case Sensitive</div>
-                                <paper-toggle-button checked="{{caseSensitive}}"></paper-toggle-button>
-                            </div>
-                            <div center horizontal layout class="option">
-                                <div flex>Password Length: {{passwordLength}}</div>
-                            </div>
-                            <div center horizontal layout class="option  green-slider">
-                                <paper-slider pin min="6" max="15" step="1" value="{{passwordLength}}"></paper-slider>
-                            </div>
-                            <div center horizontal layout class="option">
-                                <div flex>Use PIN Number</div>
-                                <paper-toggle-button checked="{{usePin}}"></paper-toggle-button>
-                            </div>
-                            <pin-option usepin="{{usePin}}" pinnumber="{{pinNumber}}"></pin-option>
-                        </div>
-                    </div>
-                    <paper-item class="supp" icon="file-download">Import Settings</paper-item>
-                    <paper-item class="supp" icon="info-outline">About</paper-item>
-                </div>
+                <profile-options selectedprofile="{{selectedProfile}}"></profile-options>
             </core-header-panel>
 
             <core-header-panel main mode="seamed">
@@ -91,7 +62,7 @@
                     </div>
                     <div>
                         <paper-input floatinglabel label="Memorable Phrase" type="{{showPhrase ? 'text' : 'password'}}" inputvalue="{{passPhrase}}"></paper-input>
-                        <password-reveal passphrase="{{passPhrase}}" includesymbols="{{includeSymbols}}" casesensitive="{{caseSensitive}}" passwordlength="{{passwordLength}}" pinnumber="{{pinNumber}}"></password-reveal>
+                        <password-reveal passphrase="{{passPhrase}}" selectedProfile="{{selectedProfile}}"></password-reveal>
                     </div>
                 </div>
 
@@ -104,11 +75,7 @@
     <script>
         Polymer('deadbolt-app', {
             showPhrase: false,
-            includeSymbols: true,
-            caseSensitive: true,
-            passwordLength: 15,
-            usePin: false,
-            pinNumber: '0000',
+            selectedProfile: {},
             passPhrase: '',
             ready: function () {
                 this.super();

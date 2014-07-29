@@ -2,37 +2,57 @@
 <link rel="import" href="../../bower_components/paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="../../bower_components/paper-slider/paper-slider.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
 
 <polymer-element name="profile-options" attributes="selectedProfile">
     <template>
         <link rel="stylesheet" href="profile-options.css" />
-        <div id="customSettings">
-            <div center horizontal layout class="option">
-                <div flex>Include Symbols</div>
-                <paper-toggle-button checked="{{includeSymbols}}"></paper-toggle-button>
+        <div vertical layout fit>
+            <paper-tabs selected="0" id="settingsTabs">
+                <paper-tab class="supp">Custom</paper-tab>
+                <paper-tab class="supp">Profile</paper-tab>
+            </paper-tabs>
+            <div flex id="settings">
+                <div id="customSettings">
+                    <div center horizontal layout class="option">
+                        <div flex>Include Symbols</div>
+                        <paper-toggle-button checked="{{selectedProfile.includeSymbols}}"></paper-toggle-button>
+                    </div>
+                    <div center horizontal layout class="option">
+                        <div flex>Case Sensitive</div>
+                        <paper-toggle-button checked="{{selectedProfile.caseSensitive}}"></paper-toggle-button>
+                    </div>
+                    <div center horizontal layout class="option">
+                        <div flex>Password Length: {{selectedProfile.passwordLength}}</div>
+                    </div>
+                    <div center horizontal layout class="option  green-slider">
+                        <paper-slider pin min="6" max="15" step="1" value="{{selectedProfile.passwordLength}}"></paper-slider>
+                    </div>
+                    <div center horizontal layout class="option">
+                        <div flex>Use PIN Number</div>
+                        <paper-toggle-button checked="{{selectedProfile.usePin}}"></paper-toggle-button>
+                    </div>
+                    <pin-option usepin="{{selectedProfile.usePin}}" pinnumber="{{selectedProfile.pinNumber}}"></pin-option>
+                </div>
             </div>
-            <div center horizontal layout class="option">
-                <div flex>Case Sensitive</div>
-                <paper-toggle-button checked="{{caseSensitive}}"></paper-toggle-button>
-            </div>
-            <div center horizontal layout class="option">
-                <div flex>Password Length: {{passwordLength}}</div>
-            </div>
-            <div center horizontal layout class="option  green-slider">
-                <paper-slider pin min="6" max="15" step="1" value="{{passwordLength}}"></paper-slider>
-            </div>
-            <div center horizontal layout class="option">
-                <div flex>Use PIN Number</div>
-                <paper-toggle-button checked="{{usePin}}"></paper-toggle-button>
-            </div>
-            <pin-option usepin="{{usePin}}" pinnumber="{{pinNumber}}"></pin-option>
+            <paper-item class="supp" icon="file-download">Import Settings</paper-item>
+            <paper-item class="supp" icon="info-outline">About</paper-item>
         </div>
     </template>
     <script>
         Polymer('profile-options', {
-            selectedProfile: {},
             ready: function() {
                 this.super();
+                this.selectedProfile = {
+                    type: 'Custom Settings',
+                    name: '',
+                    includeSymbols: true,
+                    caseSensitive: true,
+                    passwordLength: 15,
+                    usePin: false,
+                    pinNumber: '0000'
+                }
             }
         });
     </script>

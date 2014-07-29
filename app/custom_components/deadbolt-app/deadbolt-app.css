@@ -26,9 +26,6 @@ core-drawer-panel::shadow #drawer {
     font-family: RobotoDraft, 'Roboto', 'Helvetica Neue', Helvetica, Arial;
 }
 
-.option, core-toolbar {
-}
-
 core-header-panel {
     background: white;
 }
@@ -93,47 +90,10 @@ core-drawer-panel:not([narrow]) #navicon {
     color: #444;
 }
 
-paper-slider {
-    width: 100%;
-}
-
-paper-slider::shadow #sliderKnobInner,
-paper-slider::shadow #sliderKnobInner:before {
-    background-color: #444;
-}
-
-paper-slider::shadow #sliderBar::shadow #activeProgress,
-paper-slider::shadow #sliderBar::shadow #secondaryProgress {
-    background-color: #f00;
-}
-
 #toggleShowPhrase {
     margin-bottom: 1em;
 }
 
 #settingsDrawer{
     min-height: 100%;
-}
-
-paper-item.supp {
-    padding: 0.5em;
-    border-top: 1px solid #ddd;
-    background-color: #eee;
-}
-
-paper-tab.supp {
-    background-color: #eee;
-}
-
-#settings {
-     overflow-x: hidden;
-     overflow-y: auto;
-}
-
-paper-tab::shadow #ink {
-  color: #999;
-}
-
-paper-tabs::shadow #selectionBar {
-    background-color: #900;
 }
