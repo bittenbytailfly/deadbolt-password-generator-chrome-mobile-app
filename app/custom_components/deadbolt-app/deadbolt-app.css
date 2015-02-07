@@ -67,12 +67,8 @@ core-drawer-panel:not([narrow]) #navicon {
     margin-right: 1em;
 }
 
-:host /deep/ paper-toggle-button::shadow paper-radio-button::shadow #ink[checked] {
-    color: #f00;
-}
-
-:host /deep/ paper-toggle-button::shadow paper-radio-button::shadow #onRadio {
-    background-color: #f00;
+paper-checkbox::shadow #ink {
+  color: #b5b5b5;
 }
 
 :host /deep/ paper-toggle-button::shadow #toggleBar[checked] {
@@ -87,6 +83,10 @@ core-drawer-panel:not([narrow]) #navicon {
 :host /deep/ paper-input::shadow #caretInner.focusedColor {
     background: #f00;
     color: #f00;
+}
+
+paper-toggle-button::shadow [checked] .toggle {
+  background-color: #f00;
 }
 
 :host /deep/ paper-input::shadow .focusedColor {
@@ -136,4 +136,13 @@ paper-tab::shadow #ink {
 
 paper-tabs::shadow #selectionBar {
     background-color: #900;
+}
+
+paper-checkbox::shadow #checkbox.checked {
+  background-color: #d00;
+  border-color: #d00;
+}
+
+paper-checkbox::shadow #ink {
+  color: #000;
 }

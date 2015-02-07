@@ -1,7 +1,8 @@
-cd deadbolt/platforms/android/bin
-call adb install deadboltpasswordgenerator-debug.apk
-cd ../../../../
+cd deadbolt\platforms\android\build\outputs\apk
+call adb install android-debug.apk
+
+cd ..\..\..\..\
 
 
 
-
+..\..\
