@@ -38,7 +38,7 @@
     <template>
         <link href="deadbolt-app.css" rel="stylesheet" />
 
-        <core-drawer-panel id="drawerPanel" class="right-drawer">
+        <core-drawer-panel id="drawerPanel" rightdrawer disableswipe drawerwidth="80%">
 
             <core-header-panel drawer mode="seamed">
                 <core-toolbar id="navheader'">
@@ -111,20 +111,6 @@
                 navicon.addEventListener('click', function () {
                     drawerPanel.togglePanel();
                 });
-            },
-            scanBarcode: function () {
-                console.log('scanning');
-                cordova.plugins.barcodeScanner.scan(
-                  function (result) {
-                      alert("We got a barcode\n" +
-                            "Result: " + result.text + "\n" +
-                            "Format: " + result.format + "\n" +
-                            "Cancelled: " + result.cancelled);
-                  },
-                  function (error) {
-                      alert("Scanning failed: " + error);
-                  }
-               );
             }
         });
     </script>
