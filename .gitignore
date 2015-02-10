@@ -3,3 +3,4 @@ app/build.js
 app/build.htm
 app/build.htm.js
 deadbolt
+*.db

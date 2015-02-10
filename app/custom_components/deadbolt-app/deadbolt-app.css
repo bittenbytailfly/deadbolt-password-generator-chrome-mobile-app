@@ -18,10 +18,6 @@
     <http://www.gnu.org/licenses/>.
 */
 
-core-drawer-panel::shadow #drawer {
-    width: 80%;
-}
-
 :host {
     font-family: RobotoDraft, 'Roboto', 'Helvetica Neue', Helvetica, Arial;
 }
