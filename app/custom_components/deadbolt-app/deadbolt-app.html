@@ -17,7 +17,7 @@
     along with Deadbolt Password Generator.  If not, see
     <http://www.gnu.org/licenses/>.
  -->
-<link rel="import" href="../../bower_components/polymer/polymer.html">
+
 <link rel="import" href="../../bower_components/core-toolbar/core-toolbar.html">
 <link rel="import" href="../../bower_components/core-menu/core-menu.html">
 <link rel="import" href="../../bower_components/core-item/core-item.html">
@@ -38,7 +38,7 @@
     <template>
         <link href="deadbolt-app.css" rel="stylesheet" />
 
-        <core-drawer-panel id="drawerPanel" class="right-drawer">
+        <core-drawer-panel id="drawerPanel" rightdrawer disableswipe drawerwidth="80%" forcenarrow>
 
             <core-header-panel drawer mode="seamed">
                 <core-toolbar id="navheader'">
@@ -49,11 +49,11 @@
                         <div id="customSettings">
                             <div center horizontal layout class="option">
                                 <div flex>Include Symbols</div>
-                                <paper-toggle-button checked="{{includeSymbols}}"></paper-toggle-button>
+                                <paper-checkbox checked="{{includeSymbols}}"></paper-checkbox>
                             </div>
                             <div center horizontal layout class="option">
                                 <div flex>Case Sensitive</div>
-                                <paper-toggle-button checked="{{caseSensitive}}"></paper-toggle-button>
+                                <paper-checkbox checked="{{caseSensitive}}"></paper-checkbox>
                             </div>
                             <div center horizontal layout class="option">
                                 <div flex>Password Length: {{passwordLength}}</div>
@@ -63,7 +63,7 @@
                             </div>
                             <div center horizontal layout class="option">
                                 <div flex>Use PIN Number</div>
-                                <paper-toggle-button checked="{{usePin}}"></paper-toggle-button>
+                                <paper-checkbox checked="{{usePin}}"></paper-checkbox>
                             </div>
                             <pin-option usepin="{{usePin}}" pinnumber="{{pinNumber}}"></pin-option>
                         </div>
@@ -84,7 +84,9 @@
                         <paper-toggle-button checked="{{showPhrase}}"></paper-toggle-button>
                     </div>
                     <div>
-                        <paper-input floatinglabel label="Memorable Phrase" type="{{showPhrase ? 'text' : 'password'}}" inputvalue="{{passPhrase}}"></paper-input>
+                        <paper-input-decorator floatinglabel label="Memorable Phrase">
+                            <input is="core-input" type="{{showPhrase ? 'text' : 'password'}}" value="{{passPhrase}}" />
+                        </paper-input-decorator>
                         <password-reveal passphrase="{{passPhrase}}" includesymbols="{{includeSymbols}}" casesensitive="{{caseSensitive}}" passwordlength="{{passwordLength}}" pinnumber="{{pinNumber}}"></password-reveal>
                     </div>
                 </div>
@@ -109,20 +111,6 @@
                 navicon.addEventListener('click', function () {
                     drawerPanel.togglePanel();
                 });
-            },
-            scanBarcode: function () {
-                console.log('scanning');
-                cordova.plugins.barcodeScanner.scan(
-                  function (result) {
-                      alert("We got a barcode\n" +
-                            "Result: " + result.text + "\n" +
-                            "Format: " + result.format + "\n" +
-                            "Cancelled: " + result.cancelled);
-                  },
-                  function (error) {
-                      alert("Scanning failed: " + error);
-                  }
-               );
             }
         });
     </script>
