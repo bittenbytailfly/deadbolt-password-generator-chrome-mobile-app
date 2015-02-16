@@ -52,17 +52,19 @@ and run the following command:
 
 `cca create deadbolt --link-to=app/manifest.json`
 
-Then we need to install the plugins:
+Then we need to install the required plugins:
 
 ```
-cordova plugins add https://github.com/wildabeast/BarcodeScanner.git
-phonegap local plugin add https://github.com/VersoSolutions/CordovaClipboard
+cca plugins add https://github.com/VersoSolutions/CordovaClipboard
 ```
 
 To build the application firstly prepare the app by running the following command
 in the newly created 'deadbolt' folder:
 
 `cca prepare`
+
+Then, copy contents of the 'android-app-resources' folder into the newly created 
+'deadbolt' folder (overwriting where necessary).
 
 Now, from there navigate to /platforms/android/cordova and run:
 
