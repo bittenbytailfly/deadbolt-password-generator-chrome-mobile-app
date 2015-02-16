@@ -1,5 +1,6 @@
 {
     "packageId": "com.your.company.DeadboltPasswordGenerator",
     "versionCode": 1,
-    "CFBundleVersion": "1.1.1"
+    "CFBundleVersion": "1.1.1",
+    "webview": "system"
 }
