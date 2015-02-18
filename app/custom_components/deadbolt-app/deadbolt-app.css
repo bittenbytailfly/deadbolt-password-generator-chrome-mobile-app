@@ -22,9 +22,6 @@
     font-family: RobotoDraft, 'Roboto', 'Helvetica Neue', Helvetica, Arial;
 }
 
-.option, core-toolbar {
-}
-
 core-header-panel {
     background: white;
 }

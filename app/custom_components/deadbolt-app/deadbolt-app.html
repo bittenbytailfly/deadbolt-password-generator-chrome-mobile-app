@@ -20,7 +20,7 @@
 
 <link rel="import" href="../../bower_components/core-toolbar/core-toolbar.html">
 <link rel="import" href="../../bower_components/core-menu/core-menu.html">
-<link rel="import" href="../../bower_components/core-item/core-item.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/core-header-panel/core-header-panel.html">
 <link rel="import" href="../../bower_components/core-drawer-panel/core-drawer-panel.html">
 <link rel="import" href="../../bower_components/core-icons/core-icons.html">
@@ -31,6 +31,8 @@
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../../bower_components/core-animated-pages/core-animated-pages.html">
 <link rel="import" href="../pin-option/pin-option.html" />
 <link rel="import" href="../password-reveal/password-reveal.html" />
 
@@ -42,33 +44,61 @@
 
             <core-header-panel drawer mode="seamed">
                 <core-toolbar id="navheader'">
-                    <span>Settings</span>
+                    <div class="bottom fit" horizontal layout>
+                        <paper-tabs selected="{{selectedProfileMode}}" flex id="profileTabs">
+                            <paper-tab>
+                                Custom
+                            </paper-tab>
+                            <paper-tab>
+                                Profiles
+                            </paper-tab>
+                        </paper-tabs>
+                    </div>
                 </core-toolbar>
+
                 <div vertical layout fit>
+
                     <div flex id="settings">
-                        <div id="customSettings">
-                            <div center horizontal layout class="option">
-                                <div flex>Include Symbols</div>
-                                <paper-checkbox checked="{{includeSymbols}}"></paper-checkbox>
-                            </div>
-                            <div center horizontal layout class="option">
-                                <div flex>Case Sensitive</div>
-                                <paper-checkbox checked="{{caseSensitive}}"></paper-checkbox>
-                            </div>
-                            <div center horizontal layout class="option">
-                                <div flex>Password Length: {{passwordLength}}</div>
-                            </div>
-                            <div center horizontal layout class="option  green-slider">
-                                <paper-slider pin min="6" max="15" step="1" value="{{passwordLength}}"></paper-slider>
-                            </div>
-                            <div center horizontal layout class="option">
-                                <div flex>Use PIN Number</div>
-                                <paper-checkbox checked="{{usePin}}"></paper-checkbox>
-                            </div>
-                            <pin-option usepin="{{usePin}}" pinnumber="{{pinNumber}}"></pin-option>
-                        </div>
+
+                        <core-animated-pages transitions="cross-fade" selected="{{selectedProfileMode}}">
+                            <section>
+                                <div cross-fade>
+                                    <div id="customSettings">
+                                        <div center horizontal layout class="option">
+                                            <div flex>Include Symbols</div>
+                                            <paper-checkbox checked="{{deadboltProfile.includeSymbols}}"></paper-checkbox>
+                                        </div>
+                                        <div center horizontal layout class="option">
+                                            <div flex>Case Sensitive</div>
+                                            <paper-checkbox checked="{{deadboltProfile.caseSensitive}}"></paper-checkbox>
+                                        </div>
+                                        <div center horizontal layout class="option">
+                                            <div flex>Password Length: {{deadboltProfile.passwordLength}}</div>
+                                        </div>
+                                        <div center horizontal layout class="option  green-slider">
+                                            <paper-slider pin min="6" max="15" step="1" value="{{deadboltProfile.passwordLength}}"></paper-slider>
+                                        </div>
+                                        <div center horizontal layout class="option">
+                                            <div flex>Use PIN Number</div>
+                                            <paper-checkbox checked="{{deadboltProfile.usePin}}"></paper-checkbox>
+                                        </div>
+                                        <pin-option usepin="{{deadboltProfile.usePin}}" pinnumber="{{deadboltProfile.pinNumber}}"></pin-option>
+                                    </div>
+                                </div>
+                            </section>
+                            <section>
+                                <div cross-fade>
+                                    <core-selector selected="{{profileSelected}}" id="profileSelector">
+                                        <paper-item>Standard</paper-item>
+                                        <paper-item>Secure</paper-item>
+                                        <paper-item>Banking</paper-item>
+                                    </core-selector>
+                                </div>
+                            </section>
+                        </core-animated-pages>
                     </div>
                 </div>
+
             </core-header-panel>
 
             <core-header-panel main mode="seamed">
@@ -87,7 +117,7 @@
                         <paper-input-decorator floatinglabel label="Memorable Phrase">
                             <input is="core-input" type="{{showPhrase ? 'text' : 'password'}}" value="{{passPhrase}}" />
                         </paper-input-decorator>
-                        <password-reveal passphrase="{{passPhrase}}" includesymbols="{{includeSymbols}}" casesensitive="{{caseSensitive}}" passwordlength="{{passwordLength}}" pinnumber="{{pinNumber}}"></password-reveal>
+                        <password-reveal passphrase="{{passPhrase}}" deadboltprofile="{{deadboltProfile}}"></password-reveal>
                     </div>
                 </div>
 
@@ -97,19 +127,29 @@
     </template>
     <script>
         Polymer('deadbolt-app', {
+            deadboltProfile: {
+                includeSymbols: true,
+                caseSensitive: true,
+                passwordLength: 15,
+                usePin: false,
+                pinNumber: '0000'
+            },
             showPhrase: false,
-            includeSymbols: true,
-            caseSensitive: true,
-            passwordLength: 15,
-            usePin: false,
-            pinNumber: '0000',
             passPhrase: '',
             ready: function () {
                 this.super();
                 var navicon = this.$.navicon;
+                var tabs = this.$.profileTabs;
                 var drawerPanel = this.$.drawerPanel;
+                var profileSelector = this.$.profileSelector;
                 navicon.addEventListener('click', function () {
                     drawerPanel.togglePanel();
+                });
+                tabs.addEventListener('core-select', function () {
+                    console.log(tabs.selected);
+                });
+                profileSelector.addEventListener('core-select', function() {
+                    console.log(profileSelector.selected)
                 });
             }
         });
