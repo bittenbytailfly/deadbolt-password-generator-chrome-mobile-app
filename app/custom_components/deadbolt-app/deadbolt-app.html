@@ -35,6 +35,7 @@
 <link rel="import" href="../../bower_components/core-animated-pages/core-animated-pages.html">
 <link rel="import" href="../pin-option/pin-option.html" />
 <link rel="import" href="../password-reveal/password-reveal.html" />
+<link rel="import" href="../settings-repository/settings-repository.html" />
 
 <polymer-element name="deadbolt-app">
     <template>
@@ -141,32 +142,10 @@
             profileList: null,
             showPhrase: false,
             passPhrase: '',
-            getProfiles: function() {
-                return new Array(
-                    {
-                        name: 'Standard',
-                        includeSymbols: false,
-                        caseSensitive: true,
-                        passwordLength: 6,
-                        usePin: false,
-                        pinNumber: '0000'
-                    },
-                    {
-                        name: 'High Security',
-                        includeSymbols: true,
-                        caseSensitive: true,
-                        passwordLength: 15,
-                        usePin: false,
-                        pinNumber: '0000'
-                    },
-                    {
-                        name: 'Banking',
-                        includeSymbols: true,
-                        caseSensitive: true,
-                        passwordLength: 15,
-                        usePin: false,
-                        pinNumber: '0000'
-                    });
+            applySettings: function(settings) {
+                self.profileList = settings.profiles;
+                self.deadboltProfile = self.profileList.length > 0 ? self.profileList[0] : self.customProfile;
+                tabs.selected = self.profileList.length > 0 ? 1 : 0;
             },
             ready: function () {
                 this.super();
@@ -176,9 +155,7 @@
                 var drawerPanel = self.$.drawerPanel;
                 var profileSelector = self.$.profileSelector;
 
-                self.profileList = self.getProfiles();
-                self.deadboltProfile = self.profileList.length > 0 ? self.profileList[0] : self.customProfile;
-                tabs.selected = self.profileList.length > 0 ? 1 : 0;
+                deadboltSettingsRepository.load(self.applySettings);
 
                 navicon.addEventListener('click', function () {
                     drawerPanel.togglePanel();
