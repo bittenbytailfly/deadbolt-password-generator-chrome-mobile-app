@@ -89,11 +89,15 @@
                             </section>
                             <section>
                                 <div cross-fade>
-                                    <core-selector selected="{{profileSelected}}" id="profileSelector">
-                                        <template repeat="{{profile in profileList}}">
-                                            <paper-item>{{profile.name}}</paper-item>
-                                        </template>
-                                    </core-selector>
+                                        <core-selector selected="{{profileSelected}}" id="profileSelector">
+                                            <template if="{{profileList == null || profileList.length == 0}}">
+                                                No profiles
+                                                <paper-button raisedbutton class="colored" on-click="{{scanSettings}}">Scan</paper-button>
+                                            </template>
+                                            <template repeat="{{profile in profileList}}" if="{{profileList != null && profileList.length > 0}}">
+                                                <paper-item>{{profile.name}}</paper-item>
+                                            </template>
+                                        </core-selector>
                                 </div>
                             </section>
                         </core-animated-pages>
@@ -166,16 +170,28 @@
                         self.deadboltProfile = self.customProfile;
                     }
                     else {
-                        console.log(self.profileList);
-                        self.deadboltProfile = self.profileList[profileSelector.selected];
+                        if (self.profileList != null && self.profileList.length > 0) {
+                            self.deadboltProfile = self.profileList[profileSelector.selected];
+                        }
                     }
                 });
 
-                profileSelector.addEventListener('core-select', function() {
-                    self.deadboltProfile = self.profileList[profileSelector.selected];
+                profileSelector.addEventListener('core-select', function () {
+                    if (self.profileList != null && self.profileList.length > 0) {
+                        self.deadboltProfile = self.profileList[profileSelector.selected];
+                    }
                 });
             },
-
+            scanSettings: function(){
+                cordova.plugins.barcodeScanner.scan(
+                  function (result) {
+                      console.log(result.text);
+                  },
+                  function (error) {
+                      console.log("scanning failed");
+                  }
+               );
+            }
         });
     </script>
 </polymer-element>
