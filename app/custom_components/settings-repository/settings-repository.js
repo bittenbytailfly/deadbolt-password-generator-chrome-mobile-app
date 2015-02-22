@@ -16,8 +16,9 @@
 //    along with Deadbolt Password Generator.  If not, see 
 //    <http://www.gnu.org/licenses/>.
  
+<script>
 var deadboltSettingsRepository = (function() {
-     return {
+    return {
          load: function(callback) {
             chrome.storage.local.get('deadboltSettings', function (r) {
                 var savedSettings = r.deadboltSettings;
@@ -30,6 +31,42 @@ var deadboltSettingsRepository = (function() {
                     callback();
                 }
             });
+        },
+        importProfiles: function(profileScan) {
+            var profileLines = profileScan.split('\n');
+            var defaultProfileIndex = profileLines[0];
+            
+            var profiles = new Array();
+            
+            for (var i=1; i<profileLines.length; i++) {
+                var profileSettings = profileLines[i].substr(profileLines[i].lastIndexOf(' ') + 1).split('');
+                var profileName = profileLines[i].substr(0, profileLines[i].lastIndexOf(' '));
+
+                var includeSymbols = profileSettings[0] == 1;
+                var caseSensitive = profileSettings[1] == 1;
+                var passwordLength = (profileSettings[2] + '' + profileSettings[3]) * 1;
+                var usePin = false;
+                var pinNumber = '0000';
+                
+                if (profileSettings.length > 4) {
+                    usePin = true;
+                    pinNumber =  profileSettings[4].concat(profileSettings[5], profileSettings[6], profileSettings[7]);
+                }
+
+                profiles.push({
+                    name: profileName,
+                    includeSymbols: includeSymbols,
+                    caseSensitive: caseSensitive,
+                    passwordLength: passwordLength,
+                    usePin: usePin,
+                    pinNumber: pinNumber
+                });
+            }
+            
+            var deadboltSettings = {
+                defaultProfileIndex: defaultProfileIndex,
+                profiles: profiles
+            };
         }
      }
- })();
+})();
