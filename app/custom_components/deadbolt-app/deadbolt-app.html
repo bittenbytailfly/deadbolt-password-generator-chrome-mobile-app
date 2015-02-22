@@ -1,5 +1,5 @@
 <!--
-    Copyright 2014 Ed Carter
+    Copyright 2014, 2015 Ed Carter
 
     This file is part of Deadbolt Password Generator.
 
@@ -147,9 +147,9 @@
             showPhrase: false,
             passPhrase: '',
             applySettings: function(settings) {
-                self.profileList = settings.profiles;
-                self.deadboltProfile = self.profileList.length > 0 ? self.profileList[0] : self.customProfile;
-                tabs.selected = self.profileList.length > 0 ? 1 : 0;
+                this.profileList = settings.profiles;
+                this.deadboltProfile = self.profileList.length > 0 ? self.profileList[0] : self.customProfile;
+                this.$.profileTabs.selected = self.profileList.length > 0 ? 1 : 0;
             },
             ready: function () {
                 this.super();
@@ -185,7 +185,8 @@
             scanSettings: function(){
                 cordova.plugins.barcodeScanner.scan(
                   function (result) {
-                      console.log(result.text);
+                      profiles = deadboltSettingsRepository.importProfiles(result.text);
+                      deadboltSettingsRepository.save(profiles, self.applySettings);
                   },
                   function (error) {
                       console.log("scanning failed");

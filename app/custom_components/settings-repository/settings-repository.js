@@ -15,30 +15,34 @@
 //    You should have received a copy of the GNU General Public License
 //    along with Deadbolt Password Generator.  If not, see 
 //    <http://www.gnu.org/licenses/>.
- 
-<script>
-var deadboltSettingsRepository = (function() {
+
+var deadboltSettingsRepository = (function () {
     return {
-         load: function(callback) {
+        load: function (callback) {
             chrome.storage.local.get('deadboltSettings', function (r) {
+                console.log(r);
                 var savedSettings = r.deadboltSettings;
-                callback(savedSettings);
-            });
-        },
-        save: function(deadboltSettings, callback){
-            chrome.storage.local.set({ 'deadboltSettings': deadboltSettings }, function () {
-                if (callback != null) {
-                    callback();
+                if (savedSettings != null) {
+                    callback(savedSettings);
                 }
             });
         },
-        importProfiles: function(profileScan) {
+        save: function (deadboltSettings, callback) {
+            console.log(deadboltSettings);
+            chrome.storage.local.set({ 'deadboltSettings': deadboltSettings }, function () {
+                console.log('done');
+                if (callback != null) {
+                    callback(deadboltSettings);
+                }
+            });
+        },
+        importProfiles: function (profileScan) {
             var profileLines = profileScan.split('\n');
             var defaultProfileIndex = profileLines[0];
-            
+
             var profiles = new Array();
-            
-            for (var i=1; i<profileLines.length; i++) {
+
+            for (var i = 1; i < profileLines.length; i++) {
                 var profileSettings = profileLines[i].substr(profileLines[i].lastIndexOf(' ') + 1).split('');
                 var profileName = profileLines[i].substr(0, profileLines[i].lastIndexOf(' '));
 
@@ -47,10 +51,10 @@ var deadboltSettingsRepository = (function() {
                 var passwordLength = (profileSettings[2] + '' + profileSettings[3]) * 1;
                 var usePin = false;
                 var pinNumber = '0000';
-                
+
                 if (profileSettings.length > 4) {
                     usePin = true;
-                    pinNumber =  profileSettings[4].concat(profileSettings[5], profileSettings[6], profileSettings[7]);
+                    pinNumber = profileSettings[4].concat(profileSettings[5], profileSettings[6], profileSettings[7]);
                 }
 
                 profiles.push({
@@ -62,11 +66,13 @@ var deadboltSettingsRepository = (function() {
                     pinNumber: pinNumber
                 });
             }
-            
+
             var deadboltSettings = {
                 defaultProfileIndex: defaultProfileIndex,
                 profiles: profiles
             };
+
+            return deadboltSettings;
         }
-     }
+    }
 })();
