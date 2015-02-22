@@ -56,6 +56,7 @@ Then we need to install the required plugins:
 
 ```
 cca plugins add https://github.com/VersoSolutions/CordovaClipboard
+cca plugins add https://github.com/wildabeast/BarcodeScanner.git
 ```
 
 To build the application firstly prepare the app by running the following command
