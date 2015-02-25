@@ -27,7 +27,6 @@ var deadboltSettingsRepository = (function () {
             });
         },
         save: function (deadboltSettings, callback) {
-            console.log(deadboltSettings);
             chrome.storage.local.set({ 'deadboltSettings': deadboltSettings }, function () {
                 if (callback != null) {
                     callback(deadboltSettings);
@@ -35,9 +34,8 @@ var deadboltSettingsRepository = (function () {
             });
         },
         importProfiles: function (profileScan) {
-            console.log(profileScan);
             var profileLines = profileScan.split('|');
-            var defaultProfileIndex = profileLines[0];
+            var defaultProfileIndex = parseInt(profileLines[0]);
 
             var profiles = new Array();
 
