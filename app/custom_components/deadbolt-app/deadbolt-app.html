@@ -145,11 +145,13 @@
                 usePin: false,
                 pinNumber: '0000'
             },
+            selectedProfileMode: 0,
             profileSelected: 0,
             profileList: null,
             showPhrase: false,
             passPhrase: '',
             applySettings: function (settings) {
+                this.selectedProfileMode = 1;
                 this.profileList = settings.profiles;
                 this.deadboltProfile = this.profileList[settings.defaultProfileIndex];
                 this.profileSelected = settings.defaultProfileIndex;
@@ -180,10 +182,8 @@
                 });
 
                 profileSelector.addEventListener('core-select', function () {
-                    console.log(self.profileList != null && self.profileList.length > 0);
                     if (self.profileList != null && self.profileList.length > 0) {
                         self.deadboltProfile = self.profileList[self.profileSelected];
-                        console.log(self.deadboltProfile);
                     }
                 });
             },
