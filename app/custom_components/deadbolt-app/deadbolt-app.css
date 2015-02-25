@@ -1,5 +1,5 @@
 /*
-    Copyright 2014 Ed Carter
+    Copyright 2014, 2015 Ed Carter
 
     This file is part of Deadbolt Password Generator.
 
@@ -20,9 +20,6 @@
 
 :host {
     font-family: RobotoDraft, 'Roboto', 'Helvetica Neue', Helvetica, Arial;
-}
-
-.option, core-toolbar {
 }
 
 core-header-panel {

@@ -1,5 +1,5 @@
 <!--
-    Copyright 2014 Ed Carter
+    Copyright 2014, 2015 Ed Carter
 
     This file is part of Deadbolt Password Generator.
 
@@ -20,7 +20,7 @@
 
 <link rel="import" href="../../bower_components/core-toolbar/core-toolbar.html">
 <link rel="import" href="../../bower_components/core-menu/core-menu.html">
-<link rel="import" href="../../bower_components/core-item/core-item.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/core-header-panel/core-header-panel.html">
 <link rel="import" href="../../bower_components/core-drawer-panel/core-drawer-panel.html">
 <link rel="import" href="../../bower_components/core-icons/core-icons.html">
@@ -31,8 +31,12 @@
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../../bower_components/core-animated-pages/core-animated-pages.html">
+<link rel="import" href="../../bower_components/core-menu/core-menu.html">
 <link rel="import" href="../pin-option/pin-option.html" />
 <link rel="import" href="../password-reveal/password-reveal.html" />
+<link rel="import" href="../settings-repository/settings-repository.html" />
 
 <polymer-element name="deadbolt-app">
     <template>
@@ -42,33 +46,67 @@
 
             <core-header-panel drawer mode="seamed">
                 <core-toolbar id="navheader'">
-                    <span>Settings</span>
+                    <div class="bottom fit" horizontal layout>
+                        <paper-tabs selected="{{selectedProfileMode}}" flex id="profileTabs">
+                            <paper-tab>
+                                Custom
+                            </paper-tab>
+                            <paper-tab>
+                                Profiles
+                            </paper-tab>
+                        </paper-tabs>
+                    </div>
                 </core-toolbar>
+
                 <div vertical layout fit>
+
                     <div flex id="settings">
-                        <div id="customSettings">
-                            <div center horizontal layout class="option">
-                                <div flex>Include Symbols</div>
-                                <paper-checkbox checked="{{includeSymbols}}"></paper-checkbox>
-                            </div>
-                            <div center horizontal layout class="option">
-                                <div flex>Case Sensitive</div>
-                                <paper-checkbox checked="{{caseSensitive}}"></paper-checkbox>
-                            </div>
-                            <div center horizontal layout class="option">
-                                <div flex>Password Length: {{passwordLength}}</div>
-                            </div>
-                            <div center horizontal layout class="option  green-slider">
-                                <paper-slider pin min="6" max="15" step="1" value="{{passwordLength}}"></paper-slider>
-                            </div>
-                            <div center horizontal layout class="option">
-                                <div flex>Use PIN Number</div>
-                                <paper-checkbox checked="{{usePin}}"></paper-checkbox>
-                            </div>
-                            <pin-option usepin="{{usePin}}" pinnumber="{{pinNumber}}"></pin-option>
-                        </div>
+
+                        <core-animated-pages transitions="cross-fade" selected="{{selectedProfileMode}}">
+                            <section>
+                                <div cross-fade>
+                                    <div id="customSettings">
+                                        <div center horizontal layout class="option">
+                                            <div flex>Include Symbols</div>
+                                            <paper-checkbox checked="{{customProfile.includeSymbols}}"></paper-checkbox>
+                                        </div>
+                                        <div center horizontal layout class="option">
+                                            <div flex>Case Sensitive</div>
+                                            <paper-checkbox checked="{{customProfile.caseSensitive}}"></paper-checkbox>
+                                        </div>
+                                        <div center horizontal layout class="option">
+                                            <div flex>Password Length: {{customProfile.passwordLength}}</div>
+                                        </div>
+                                        <div center horizontal layout class="option  green-slider">
+                                            <paper-slider pin min="6" max="15" step="1" value="{{customProfile.passwordLength}}"></paper-slider>
+                                        </div>
+                                        <div center horizontal layout class="option">
+                                            <div flex>Use PIN Number</div>
+                                            <paper-checkbox checked="{{customProfile.usePin}}"></paper-checkbox>
+                                        </div>
+                                        <pin-option usepin="{{customProfile.usePin}}" pinnumber="{{customProfile.pinNumber}}"></pin-option>
+                                    </div>
+                                </div>
+                            </section>
+                            <section>
+                                <div cross-fade>
+                                    <section hidden?="{{profileList != null && profileList.length > 0}}">
+                                        No profiles
+                                        <paper-button raisedbutton class="colored" on-click="{{scanSettings}}">Scan</paper-button>
+                                    </section>
+                                    <section hidden?="{{profileList == null || profileList.length == 0}}">
+                                        <core-menu selected="{{profileSelected}}" id="profileSelector">
+                                            <template repeat="{{profile in profileList}}">
+                                                <paper-item>{{profile.name}}</paper-item>
+                                            </template>
+                                        </core-menu>
+                                    </section>
+                                </div>
+                            </section>
+                        </core-animated-pages>
                     </div>
                 </div>
+
             </core-header-panel>
 
             <core-header-panel main mode="seamed">
@@ -83,11 +121,12 @@
                         <div flex>Show Memorable Phrase</div>
                         <paper-toggle-button checked="{{showPhrase}}"></paper-toggle-button>
                     </div>
+                    <div><h3>{{deadboltProfile.name}}</h3></div>
                     <div>
                         <paper-input-decorator floatinglabel label="Memorable Phrase">
                             <input is="core-input" type="{{showPhrase ? 'text' : 'password'}}" value="{{passPhrase}}" />
                         </paper-input-decorator>
-                        <password-reveal passphrase="{{passPhrase}}" includesymbols="{{includeSymbols}}" casesensitive="{{caseSensitive}}" passwordlength="{{passwordLength}}" pinnumber="{{pinNumber}}"></password-reveal>
+                        <password-reveal passphrase="{{passPhrase}}" deadboltprofile="{{deadboltProfile}}"></password-reveal>
                     </div>
                 </div>
 
@@ -97,20 +136,68 @@
     </template>
     <script>
         Polymer('deadbolt-app', {
+            deadboltProfile: null,
+            customProfile: {
+                name: "Custom Profile",
+                includeSymbols: true,
+                caseSensitive: true,
+                passwordLength: 15,
+                usePin: false,
+                pinNumber: '0000'
+            },
+            profileSelected: 0,
+            profileList: null,
             showPhrase: false,
-            includeSymbols: true,
-            caseSensitive: true,
-            passwordLength: 15,
-            usePin: false,
-            pinNumber: '0000',
             passPhrase: '',
+            applySettings: function (settings) {
+                this.profileList = settings.profiles;
+                this.deadboltProfile = this.profileList[settings.defaultProfileIndex];
+                this.profileSelected = settings.defaultProfileIndex;
+            },
             ready: function () {
                 this.super();
+                var self = this;
                 var navicon = this.$.navicon;
+                var tabs = this.$.profileTabs;
                 var drawerPanel = this.$.drawerPanel;
+                var profileSelector = this.$.profileSelector;
+
+                deadboltSettingsRepository.load(this.applySettings.bind(this));
+
                 navicon.addEventListener('click', function () {
                     drawerPanel.togglePanel();
                 });
+
+                tabs.addEventListener('core-select', function () {
+                    if (tabs.selected == 0) {
+                        self.deadboltProfile = self.customProfile;
+                    }
+                    else {
+                        if (self.profileList != null && self.profileList.length > 0) {
+                            self.deadboltProfile = self.profileList[self.profileSelected];
+                        }
+                    }
+                });
+
+                profileSelector.addEventListener('core-select', function () {
+                    console.log(self.profileList != null && self.profileList.length > 0);
+                    if (self.profileList != null && self.profileList.length > 0) {
+                        self.deadboltProfile = self.profileList[self.profileSelected];
+                        console.log(self.deadboltProfile);
+                    }
+                });
+            },
+            scanSettings: function () {
+                var self = this;
+                cordova.plugins.barcodeScanner.scan(
+                  function (result) {
+                      profiles = deadboltSettingsRepository.importProfiles(result.text);
+                      deadboltSettingsRepository.save(profiles, self.applySettings.bind(self));
+                  },
+                    function (error) {
+                        console.log("scanning failed");
+                    }
+                );
             }
         });
     </script>
