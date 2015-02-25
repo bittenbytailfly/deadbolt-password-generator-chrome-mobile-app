@@ -20,9 +20,8 @@ var deadboltSettingsRepository = (function () {
     return {
         load: function (callback) {
             chrome.storage.local.get('deadboltSettings', function (r) {
-                console.log(r);
                 var savedSettings = r.deadboltSettings;
-                if (savedSettings != null) {
+                if (savedSettings !== undefined) {
                     callback(savedSettings);
                 }
             });
@@ -30,14 +29,14 @@ var deadboltSettingsRepository = (function () {
         save: function (deadboltSettings, callback) {
             console.log(deadboltSettings);
             chrome.storage.local.set({ 'deadboltSettings': deadboltSettings }, function () {
-                console.log('done');
                 if (callback != null) {
                     callback(deadboltSettings);
                 }
             });
         },
         importProfiles: function (profileScan) {
-            var profileLines = profileScan.split('\n');
+            console.log(profileScan);
+            var profileLines = profileScan.split('|');
             var defaultProfileIndex = profileLines[0];
 
             var profiles = new Array();
@@ -55,6 +54,9 @@ var deadboltSettingsRepository = (function () {
                 if (profileSettings.length > 4) {
                     usePin = true;
                     pinNumber = profileSettings[4].concat(profileSettings[5], profileSettings[6], profileSettings[7]);
+                }
+                else {
+                    pinNumber = '0000';
                 }
 
                 profiles.push({

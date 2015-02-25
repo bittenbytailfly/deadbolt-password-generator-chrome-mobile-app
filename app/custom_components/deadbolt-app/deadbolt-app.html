@@ -33,6 +33,7 @@
 <link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="../../bower_components/core-animated-pages/core-animated-pages.html">
+<link rel="import" href="../../bower_components/core-selector/core-selector.html">
 <link rel="import" href="../pin-option/pin-option.html" />
 <link rel="import" href="../password-reveal/password-reveal.html" />
 <link rel="import" href="../settings-repository/settings-repository.html" />
@@ -89,15 +90,16 @@
                             </section>
                             <section>
                                 <div cross-fade>
-                                        <core-selector selected="{{profileSelected}}" id="profileSelector">
-                                            <template if="{{profileList == null || profileList.length == 0}}">
-                                                No profiles
-                                                <paper-button raisedbutton class="colored" on-click="{{scanSettings}}">Scan</paper-button>
-                                            </template>
-                                            <template repeat="{{profile in profileList}}" if="{{profileList != null && profileList.length > 0}}">
+                                    
+                                        No profiles
+                                        <paper-button raisedbutton class="colored" on-click="{{scanSettings}}">Scan</paper-button>
+                                    
+                                        <core-selector selected=" {{profileselected}}" id="profileSelector">
+                                            <template repeat="{{profile in profileList}}">
                                                 <paper-item>{{profile.name}}</paper-item>
                                             </template>
                                         </core-selector>
+                                    
                                 </div>
                             </section>
                         </core-animated-pages>
@@ -146,20 +148,19 @@
             profileList: null,
             showPhrase: false,
             passPhrase: '',
-            applySettings: function(settings) {
+            applySettings: function (settings) {
                 this.profileList = settings.profiles;
-                this.deadboltProfile = self.profileList.length > 0 ? self.profileList[0] : self.customProfile;
-                this.$.profileTabs.selected = self.profileList.length > 0 ? 1 : 0;
+                this.deadboltProfile = self.profileList[settings.defaultProfileIndex];
+                this.profileSelected = settings.defaultProfileIndex;
             },
             ready: function () {
                 this.super();
-                var self = this;
-                var navicon = self.$.navicon;
-                var tabs = self.$.profileTabs;
-                var drawerPanel = self.$.drawerPanel;
-                var profileSelector = self.$.profileSelector;
+                var navicon = this.$.navicon;
+                var tabs = this.$.profileTabs;
+                var drawerPanel = this.$.drawerPanel;
+                var profileSelector = this.$.profileSelector;
 
-                deadboltSettingsRepository.load(self.applySettings);
+                deadboltSettingsRepository.load(this.applySettings.bind(this));
 
                 navicon.addEventListener('click', function () {
                     drawerPanel.togglePanel();
@@ -167,31 +168,32 @@
 
                 tabs.addEventListener('core-select', function () {
                     if (tabs.selected == 0) {
-                        self.deadboltProfile = self.customProfile;
+                        this.deadboltProfile = this.customProfile;
                     }
                     else {
-                        if (self.profileList != null && self.profileList.length > 0) {
-                            self.deadboltProfile = self.profileList[profileSelector.selected];
+                        if (this.profileList != null && this.profileList.length > 0) {
+                            this.deadboltProfile = this.profileList[profileSelector.selected];
                         }
                     }
                 });
 
                 profileSelector.addEventListener('core-select', function () {
-                    if (self.profileList != null && self.profileList.length > 0) {
-                        self.deadboltProfile = self.profileList[profileSelector.selected];
+                    if (this.profileList != null && this.profileList.length > 0) {
+                        this.deadboltProfile = this.profileList[profileSelector.selected];
                     }
                 });
             },
             scanSettings: function(){
-                cordova.plugins.barcodeScanner.scan(
-                  function (result) {
-                      profiles = deadboltSettingsRepository.importProfiles(result.text);
-                      deadboltSettingsRepository.save(profiles, self.applySettings);
-                  },
-                  function (error) {
-                      console.log("scanning failed");
-                  }
-               );
+                //cordova.plugins.barcodeScanner.scan(
+                //  function (result) {
+                        //profiles = deadboltSettingsRepository.importProfiles(result.text);
+                profiles = deadboltSettingsRepository.importProfiles('2|Standard 0012|Secure 0010|Banking 1115');
+                deadboltSettingsRepository.save(profiles, this.applySettings.bind(this));
+                  //},
+                  //function (error) {
+                  //    console.log("scanning failed");
+                  //}
+               //);
             }
         });
     </script>
