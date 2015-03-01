@@ -32,8 +32,10 @@
 <link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
-<link rel="import" href="../../bower_components/core-animated-pages/core-animated-pages.html">
+<link rel="import" href="../../bower_components/core-pages/core-pages.html">
 <link rel="import" href="../../bower_components/core-menu/core-menu.html">
+<link rel="import" href="../../bower_components/core-icon/core-icon.html">
+<link rel="import" href="../../bower_components/core-icons/communication-icons.html">
 <link rel="import" href="../pin-option/pin-option.html" />
 <link rel="import" href="../password-reveal/password-reveal.html" />
 <link rel="import" href="../settings-repository/settings-repository.html" />
@@ -60,50 +62,48 @@
 
                 <div vertical layout fit>
 
-                    <div flex id="settings">
-
-                        <core-animated-pages transitions="cross-fade" selected="{{selectedProfileMode}}">
-                            <section>
-                                <div cross-fade>
-                                    <div id="customSettings">
-                                        <div center horizontal layout class="option">
-                                            <div flex>Include Symbols</div>
-                                            <paper-checkbox checked="{{customProfile.includeSymbols}}"></paper-checkbox>
+                    <div id="settings" style="height:100%;">
+                        <div id="customSettings" hidden?="{{selectedProfileMode == 1}}">
+                            <div center horizontal layout class="option">
+                                <div flex>Include Symbols</div>
+                                <paper-checkbox checked="{{customProfile.includeSymbols}}"></paper-checkbox>
+                            </div>
+                            <div center horizontal layout class="option">
+                                <div flex>Case Sensitive</div>
+                                <paper-checkbox checked="{{customProfile.caseSensitive}}"></paper-checkbox>
+                            </div>
+                            <div center horizontal layout class="option">
+                                <div flex>Password Length: {{customProfile.passwordLength}}</div>
+                            </div>
+                            <div center horizontal layout class="option  green-slider">
+                                <paper-slider pin min="6" max="15" step="1" value="{{customProfile.passwordLength}}"></paper-slider>
+                            </div>
+                            <div center horizontal layout class="option">
+                                <div flex>Use PIN Number</div>
+                                <paper-checkbox checked="{{customProfile.usePin}}"></paper-checkbox>
+                            </div>
+                            <pin-option usepin="{{customProfile.usePin}}" pinnumber="{{customProfile.pinNumber}}"></pin-option>
+                        </div>
+                        <div id="profiles" hidden?="{{selectedProfileMode == 0}}" fit>
+                            <div fit vertical layout>
+                                <div hidden?="{{profileList != null && profileList.length > 0}}" flex>
+                                    <div flex horizontal layout center center-justified class="noProfiles" fit>
+                                        <div vertical layout>
+                                            <div><core-icon icon="block"></core-icon></div>
+                                            <div>No profiles</div>
                                         </div>
-                                        <div center horizontal layout class="option">
-                                            <div flex>Case Sensitive</div>
-                                            <paper-checkbox checked="{{customProfile.caseSensitive}}"></paper-checkbox>
-                                        </div>
-                                        <div center horizontal layout class="option">
-                                            <div flex>Password Length: {{customProfile.passwordLength}}</div>
-                                        </div>
-                                        <div center horizontal layout class="option  green-slider">
-                                            <paper-slider pin min="6" max="15" step="1" value="{{customProfile.passwordLength}}"></paper-slider>
-                                        </div>
-                                        <div center horizontal layout class="option">
-                                            <div flex>Use PIN Number</div>
-                                            <paper-checkbox checked="{{customProfile.usePin}}"></paper-checkbox>
-                                        </div>
-                                        <pin-option usepin="{{customProfile.usePin}}" pinnumber="{{customProfile.pinNumber}}"></pin-option>
                                     </div>
                                 </div>
-                            </section>
-                            <section>
-                                <div cross-fade>
-                                    <section hidden?="{{profileList != null && profileList.length > 0}}">
-                                        No profiles
-                                        <paper-button raisedbutton class="colored" on-click="{{scanSettings}}">Scan</paper-button>
-                                    </section>
-                                    <section hidden?="{{profileList == null || profileList.length == 0}}">
-                                        <core-menu selected="{{profileSelected}}" id="profileSelector">
-                                            <template repeat="{{profile in profileList}}">
-                                                <paper-item>{{profile.name}}</paper-item>
-                                            </template>
-                                        </core-menu>
-                                    </section>
+                                <div hidden?="{{profileList == null || profileList.length == 0}}" flex>
+                                    <core-menu selected="{{profileSelected}}" id="profileSelector">
+                                        <template repeat="{{profile in profileList}}">
+                                            <paper-item>{{profile.name}}</paper-item>
+                                        </template>
+                                    </core-menu>
                                 </div>
-                            </section>
-                        </core-animated-pages>
+                                <div class="importProfilesArea"><paper-item raisedbutton on-click="{{scanSettings}}"><core-icon icon="file-download"></core-icon> Import Profiles</paper-item></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

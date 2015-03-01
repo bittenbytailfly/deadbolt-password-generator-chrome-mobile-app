@@ -139,3 +139,30 @@ paper-checkbox::shadow #checkbox.checked {
 paper-checkbox::shadow #ink {
   color: #000;
 }
+
+.noProfiles {
+    color: #999;
+    text-align: center;
+}
+
+.noProfiles core-icon {
+    margin-bottom: 0.5em;
+}
+
+.importProfilesArea {
+    border-top: solid #eee 1px;
+}
+
+.importProfilesArea core-icon {
+    margin-right: 0.5em;
+}
+
+paper-input-decorator /deep/ .focused-underline {
+    /* line color when the input is unfocused */
+    background-color: #f00;
+}
+
+paper-input-decorator[focused] /deep/ .floated-label .label-text {
+    /* floating label color when the input is focused */
+    color: #555;
+}
