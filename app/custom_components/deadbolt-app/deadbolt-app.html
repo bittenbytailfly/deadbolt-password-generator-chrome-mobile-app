@@ -35,7 +35,7 @@
 <link rel="import" href="../../bower_components/core-pages/core-pages.html">
 <link rel="import" href="../../bower_components/core-menu/core-menu.html">
 <link rel="import" href="../../bower_components/core-icon/core-icon.html">
-<link rel="import" href="../../bower_components/core-icons/communication-icons.html">
+<link rel="import" href="../../bower_components/core-a11y-keys/core-a11y-keys.html">
 <link rel="import" href="../pin-option/pin-option.html" />
 <link rel="import" href="../password-reveal/password-reveal.html" />
 <link rel="import" href="../settings-repository/settings-repository.html" />
@@ -124,9 +124,11 @@
                     <div><h3>{{deadboltProfile.name}}</h3></div>
                     <div>
                         <paper-input-decorator floatinglabel label="Memorable Phrase">
-                            <input is="core-input" type="{{showPhrase ? 'text' : 'password'}}" value="{{passPhrase}}" />
+                            <input is="core-input" type="{{showPhrase ? 'text' : 'password'}}" value="{{passPhrase}}">
+                                <core-a11y-keys keys="enter" on-keys-pressed="{{enterPressed}}"></core-a11y-keys>
+                            </input>
                         </paper-input-decorator>
-                        <password-reveal passphrase="{{passPhrase}}" deadboltprofile="{{deadboltProfile}}"></password-reveal>
+                        <password-reveal id="passwordReveal" passphrase="{{passPhrase}}" deadboltprofile="{{deadboltProfile}}"></password-reveal>
                     </div>
                 </div>
 
@@ -144,6 +146,11 @@
                 passwordLength: 15,
                 usePin: false,
                 pinNumber: '0000'
+            },
+            enterPressed: function () {
+                if (this.passPhrase.length >= 6) {
+                    this.$.passwordReveal.click();
+                }
             },
             selectedProfileMode: 0,
             profileSelected: 0,
