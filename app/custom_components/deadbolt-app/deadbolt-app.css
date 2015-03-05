@@ -166,3 +166,8 @@ paper-input-decorator[focused] /deep/ .floated-label .label-text {
     /* floating label color when the input is focused */
     color: #555;
 }
+
+#action-buttons {
+    margin-top: 1em;
+    text-align: center;
+}

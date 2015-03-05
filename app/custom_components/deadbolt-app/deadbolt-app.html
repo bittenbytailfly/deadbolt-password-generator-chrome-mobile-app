@@ -32,6 +32,9 @@
 <link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog-transition.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../../bower_components/core-pages/core-pages.html">
 <link rel="import" href="../../bower_components/core-menu/core-menu.html">
 <link rel="import" href="../../bower_components/core-icon/core-icon.html">
@@ -90,7 +93,11 @@
                                     <div flex horizontal layout center center-justified class="noProfiles" fit>
                                         <div vertical layout>
                                             <div><core-icon icon="block"></core-icon></div>
-                                            <div>No profiles</div>
+                                            <div>
+                                                <p>No Profiles</p>
+                                                <p>You can import profiles from the Deadbolt Chrome Extension, by selecting &apos;Export for Mobile&apos; on the extensions settings page</p>
+                                                <p>You can download the extension from the <a target="_blank" href="https://chrome.google.com/webstore/detail/deadbolt-password-generat/gmipahielflpaijgdkfailgmiloecolh">Chrome Web Store.</a></p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -101,7 +108,7 @@
                                         </template>
                                     </core-menu>
                                 </div>
-                                <div class="importProfilesArea"><paper-item raisedbutton on-click="{{scanSettings}}"><core-icon icon="file-download"></core-icon> Import Profiles</paper-item></div>
+                                <div class="importProfilesArea"><paper-item raisedbutton on-click="{{importProfiles}}"><core-icon icon="file-download"></core-icon> Import Profiles</paper-item></div>
                             </div>
                         </div>
                     </div>
@@ -125,7 +132,7 @@
                     <div>
                         <paper-input-decorator floatinglabel label="Memorable Phrase">
                             <input is="core-input" type="{{showPhrase ? 'text' : 'password'}}" value="{{passPhrase}}">
-                                <core-a11y-keys keys="enter" on-keys-pressed="{{enterPressed}}"></core-a11y-keys>
+                            <core-a11y-keys keys="enter" on-keys-pressed="{{enterPressed}}"></core-a11y-keys>
                             </input>
                         </paper-input-decorator>
                         <password-reveal id="passwordReveal" passphrase="{{passPhrase}}" deadboltprofile="{{deadboltProfile}}"></password-reveal>
@@ -135,6 +142,21 @@
             </core-header-panel>
 
         </core-drawer-panel>
+
+        <paper-dialog id="profileImportDialog" backdrop autoclosedisabled layered="false" transition="core-transition-center">
+            <div>
+                Please note that importing profiles will replace any existing profiles stored on this device.
+            </div>
+            <div id="action-buttons">
+                <paper-button on-click="{{scanSettings}}">Continue</paper-button>
+                <paper-button on-click="{{closeDialog}}">Cancel</paper-button>
+            </div>
+        </paper-dialog>
+
+        <paper-toast id="profilesImported" text="Profiles imported successfully" class="capsule"></paper-toast>
+
+        <paper-toast id="profilesFailedToImport" text="Failed to import profiles" class="capsule"></paper-toast>
+
     </template>
     <script>
         Polymer('deadbolt-app', {
@@ -198,17 +220,30 @@
 
                 document.addEventListener("backbutton", self.backClicked.bind(self), false);
             },
+            importProfiles: function () {
+                this.$.profileImportDialog.open();
+            },
+            closeDialog: function () {
+                this.$.profileImportDialog.close();
+            },
             scanSettings: function () {
                 var self = this;
+                self.$.profileImportDialog.close();
                 cordova.plugins.barcodeScanner.scan(
-                  function (result) {
-                      if (!result.cancelled) {
-                          profiles = deadboltSettingsRepository.importProfiles(result.text);
-                          deadboltSettingsRepository.save(profiles, self.applySettings.bind(self));
-                      }
+                    function (result) {
+                        if (!result.cancelled) {
+                            profiles = deadboltSettingsRepository.importProfiles(result.text);
+                            if (profiles != null) {
+                                deadboltSettingsRepository.save(profiles, self.applySettings.bind(self));
+                                self.$.profilesImported.show();
+                            }
+                            else {
+                                self.$.profilesFailedToImport.show();
+                            }
+                        }
                     },
                     function (error) {
-                        console.log("scanning failed");
+                        self.$.profilesFailedToImport.show();
                     }
                 );
             },
