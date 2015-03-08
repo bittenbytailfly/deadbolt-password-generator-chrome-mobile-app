@@ -92,9 +92,8 @@
                                 <div hidden?="{{profileList != null && profileList.length > 0}}" flex>
                                     <div flex horizontal layout center center-justified class="noProfiles" fit>
                                         <div vertical layout>
-                                            <div><core-icon icon="block"></core-icon></div>
                                             <div>
-                                                <p>No Profiles</p>
+                                                <p><strong>No Profiles</strong></p>
                                                 <p>You can import profiles from the Deadbolt Chrome Extension, by selecting &apos;Export for Mobile&apos; on the extensions settings page</p>
                                                 <p>You can download the extension from the <a target="_blank" href="https://chrome.google.com/webstore/detail/deadbolt-password-generat/gmipahielflpaijgdkfailgmiloecolh">Chrome Web Store.</a></p>
                                             </div>
@@ -108,7 +107,6 @@
                                         </template>
                                     </core-menu>
                                 </div>
-                                <div class="importProfilesArea"><paper-item raisedbutton on-click="{{importProfiles}}"><core-icon icon="file-download"></core-icon> Import Profiles</paper-item></div>
                             </div>
                         </div>
                     </div>
@@ -119,8 +117,9 @@
             <core-header-panel main mode="seamed">
                 <core-toolbar id="mainheader">
                     <span flex>
-                        <img src="deadbolt-logo.png" style="height:30px;margin-top:5px;" />
+                        <img src="deadbolt-logo.png" style="height:25px;margin-top:8px;" />
                     </span>
+                    <paper-icon-button id="importProfilesButton" icon="file-download" on-click="{{ importProfiles }}"></paper-icon-button>
                     <paper-icon-button id="navicon" icon="menu"></paper-icon-button>
                 </core-toolbar>
                 <div class="content">
@@ -144,12 +143,13 @@
         </core-drawer-panel>
 
         <paper-dialog id="profileImportDialog" backdrop autoclosedisabled layered="false" transition="core-transition-center">
+            <p><strong>Import Profiles from Chrome Extension</strong></p>
             <div>
                 Please note that importing profiles will replace any existing profiles stored on this device.
             </div>
             <div id="action-buttons">
-                <paper-button on-click="{{scanSettings}}">Continue</paper-button>
                 <paper-button on-click="{{closeDialog}}">Cancel</paper-button>
+                <paper-button on-click="{{scanSettings}}">Continue</paper-button>
             </div>
         </paper-dialog>
 
@@ -254,6 +254,9 @@
                 else {
                     this.$.drawerPanel.togglePanel();
                 }
+            },
+            profileSelectedChanged: function () {
+                this.$.drawerPanel.closeDrawer();
             }
         });
     </script>

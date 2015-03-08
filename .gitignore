@@ -6,3 +6,5 @@ deadbolt
 *.db
 *.webinfo
 *.log
+android-app-resources/android-release-keys.properties
+android-app-resources/keys.p12
