@@ -214,7 +214,6 @@
                 profileSelector.addEventListener('core-select', function () {
                     if (self.profileList != null && self.profileList.length > 0) {
                         self.deadboltProfile = self.profileList[self.profileSelected];
-                        drawerPanel.togglePanel();
                     }
                 });
 
@@ -254,6 +253,9 @@
                 else {
                     this.$.drawerPanel.togglePanel();
                 }
+            },
+            profileSelectedChanged: function () {
+                this.$.drawerPanel.closeDrawer();
             }
         });
     </script>
