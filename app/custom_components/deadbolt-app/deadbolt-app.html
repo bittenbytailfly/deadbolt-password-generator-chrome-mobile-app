@@ -143,12 +143,13 @@
         </core-drawer-panel>
 
         <paper-dialog id="profileImportDialog" backdrop autoclosedisabled layered="false" transition="core-transition-center">
+            <p><strong>Import Profiles from Chrome Extension</strong></p>
             <div>
                 Please note that importing profiles will replace any existing profiles stored on this device.
             </div>
             <div id="action-buttons">
-                <paper-button on-click="{{scanSettings}}">Continue</paper-button>
                 <paper-button on-click="{{closeDialog}}">Cancel</paper-button>
+                <paper-button on-click="{{scanSettings}}">Continue</paper-button>
             </div>
         </paper-dialog>
 

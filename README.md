@@ -70,3 +70,7 @@ Then, copy contents of the 'android-app-resources' folder into the newly created
 Now, from there navigate to /platforms/android/cordova and run:
 
 `build --debug`
+
+# Additional Considerations
+
+At time of writing, Cordova, Polymer and CCA are all experimental and still have a few minor issues. To avoid running into styling issues when it comes to the dialog box, I have adjusted the property 'android:windowSoftInputMode' in 'activity' to 'adjustPan' in the Android Manifest.
