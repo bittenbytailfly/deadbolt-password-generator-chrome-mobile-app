@@ -36,31 +36,61 @@ var deadboltSettingsRepository = (function () {
         importProfiles: function (profileScan) {
             try
             {
+                var includeSymbolsIndex;
+                var importVersion = 1
+                var caseSensitiveIndex;
+                var passwordLengthIndex;
+                var pinNumberIndex;
+                var engineIdIndex;
+                var defaultProfileIndex;
+
                 var profileLines = profileScan.split('|');
-                var defaultProfileIndex = parseInt(profileLines[0]);
+                var topLevelSettings = profileLines[0].split('');
+                
+                if (topLevelSettings[0] == 'a') {
+                    // We're using v2 of the Deadbolt import
+                    engineIdIndex = 0;
+                    defaultProfileIndex = parseInt(topLevelSettings[1]);
+                    includeSymbolsIndex = 1;
+                    caseSensitiveIndex = 2;
+                    passwordLengthIndex = 3;
+                    pinNumberIndex = 5;
+                    importVersion = 2;
+                }
+                else {
+                    // Fall back to the original for backward compatibility
+                    defaultProfileIndex = parseInt(topLevelSettings[0]);
+                    includeSymbolsIndex = 0;
+                    caseSensitiveIndex = 1;
+                    passwordLengthIndex = 2;
+                    pinNumberIndex = 4;
+                }
 
                 var profiles = new Array();
 
                 for (var i = 1; i < profileLines.length; i++) {
-                    var profileSettings = profileLines[i].substr(profileLines[i].lastIndexOf(' ') + 1).split('');
+                    var profileSettingsString = profileLines[i].substr(profileLines[i].lastIndexOf(' ') + 1);
+                    var profileSettings = profileSettingsString.split('');
                     var profileName = profileLines[i].substr(0, profileLines[i].lastIndexOf(' '));
 
-                    var includeSymbols = profileSettings[0] == 1;
-                    var caseSensitive = profileSettings[1] == 1;
-                    var passwordLength = (profileSettings[2] + '' + profileSettings[3]) * 1;
+                    var engineId = 0;
+                    if (importVersion == 2) {
+                        engineId = parseInt(profileSettings[engineIdIndex]);
+                    }
+                    var includeSymbols = profileSettings[includeSymbolsIndex] == 1;
+                    var caseSensitive = profileSettings[caseSensitiveIndex] == 1;
+                    var passwordLength = (profileSettingsString.substr(passwordLengthIndex, 2)) * 1;
                     var usePin = false;
                     var pinNumber = '0000';
 
-                    if (profileSettings.length > 4) {
+                    if (profileSettings.length > pinNumberIndex) {
                         usePin = true;
-                        pinNumber = profileSettings[4].concat(profileSettings[5], profileSettings[6], profileSettings[7]);
-                    }
-                    else {
-                        pinNumber = '0000';
+                        pinNumber = profileSettingsString.substr(pinNumberIndex, 4);
                     }
 
                     profiles.push({
                         name: profileName,
+                        engineId: engineId,
                         includeSymbols: includeSymbols,
                         caseSensitive: caseSensitive,
                         passwordLength: passwordLength,

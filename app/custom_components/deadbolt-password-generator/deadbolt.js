@@ -1,10 +1,10 @@
-﻿/*
+/*
  Deadbolt Password Generator v2.0
  Copyright (c) 2009-2015 Ed Carter http://www.deadboltpasswordgenerator.com
  License: MIT
 */
 
-var deadboltPasswordGenerator = (function () {
+var deadboltPasswordGenerator = (function() {
 
     var self = this;
 
@@ -13,7 +13,7 @@ var deadboltPasswordGenerator = (function () {
     self.ucaseChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     self.lcaseChars = 'abcdefghijklmnopqrstuvwxyz';
 
-    self.getNumericPasswordString = function (passPhrase, multiplier, options) {
+    self.getNumericPasswordString = function(passPhrase, multiplier, options) {
         var passNumber = 0;
 
         while (passPhrase.length < options.passwordLength) {
@@ -33,7 +33,7 @@ var deadboltPasswordGenerator = (function () {
         return passNumber;
     };
 
-    self.v1Encode = function (passPhrase, multiplier, options) {
+    self.v1Encode = function(passPhrase, multiplier, options) {
         var password = '';
         var passNumber = self.getNumericPasswordString(passPhrase, multiplier, options);
 
@@ -61,7 +61,7 @@ var deadboltPasswordGenerator = (function () {
         return password;
     };
 
-    self.v2Encode = function (passPhrase, multiplier, options) {
+    self.v2Encode = function(passPhrase, multiplier, options) {
         var password = '';
         var passNumber = self.getNumericPasswordString(passPhrase, multiplier, options);
 
@@ -115,19 +115,19 @@ var deadboltPasswordGenerator = (function () {
     self.engines = new Array({
         id: 0,
         name: 'English Breakfast (legacy)',
-        process: function (passPhrase, options) {
+        process: function(passPhrase, options) {
             var multiplier = options.pin + '669.669'
             return self.v1Encode(passPhrase, multiplier, options);
         }
     }, {
-        id: 2,
+        id: 1,
         name: 'Earl Grey',
-        process: function (passPhrase, options) {
+        process: function(passPhrase, options) {
             var multiplier = '6.69' + options.pin.split('').reverse().join('');
             return self.v2Encode(passPhrase, multiplier, options);
         }
     }, {
-        id: 3,
+        id: 2,
         name: 'Cammomile',
         process: function (passPhrase, options) {
             var multiplier = '66.9' + options.pin;
@@ -135,7 +135,7 @@ var deadboltPasswordGenerator = (function () {
         }
     });
 
-    self.getEngineById = function (id) {
+    self.getEngineById = function(id) {
         for (var i = 0; i < self.engines.length; i++) {
             if (self.engines[i].id === id) {
                 return self.engines[i];
@@ -145,10 +145,10 @@ var deadboltPasswordGenerator = (function () {
     };
 
     return {
-        getAvailableEngines: function () {
+        getAvailableEngines: function() {
             return self.engines;
         },
-        encodePassword: function (passPhrase, options) {
+        encodePassword: function(passPhrase, options) {
             if (passPhrase.length < 6) {
                 return '';
             }
