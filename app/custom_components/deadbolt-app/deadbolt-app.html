@@ -39,6 +39,8 @@
 <link rel="import" href="../../bower_components/core-menu/core-menu.html">
 <link rel="import" href="../../bower_components/core-icon/core-icon.html">
 <link rel="import" href="../../bower_components/core-a11y-keys/core-a11y-keys.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/paper-dropdown/paper-dropdown.html">
 <link rel="import" href="../pin-option/pin-option.html" />
 <link rel="import" href="../password-reveal/password-reveal.html" />
 <link rel="import" href="../settings-repository/settings-repository.html" />
@@ -46,7 +48,7 @@
 <polymer-element name="deadbolt-app">
     <template>
         <link href="deadbolt-app.css" rel="stylesheet" />
-
+        
         <core-drawer-panel id="drawerPanel" rightdrawer disableswipe drawerwidth="80%" forcenarrow>
 
             <core-header-panel drawer mode="seamed">
@@ -67,6 +69,20 @@
 
                     <div id="settings" style="height:100%;">
                         <div id="customSettings" hidden?="{{selectedProfileMode == 1}}">
+                            <div center horizontal layout class="option">
+                                <div flex>Encoding Algorithm:</div>
+                            </div>
+                            <div center horizontal layout class="option">
+                                <paper-dropdown-menu style="width: 100%;">
+                                    <paper-dropdown class="dropdown" style="width: 100%;">
+                                        <core-menu class="menu" selected="{{customProfile.engineId}}">
+                                            <template repeat="{{encodingAlgorithms}}">
+                                                <paper-item>{{name}}</paper-item>
+                                            </template>
+                                        </core-menu>
+                                    </paper-dropdown>
+                                </paper-dropdown-menu>
+                            </div>
                             <div center horizontal layout class="option">
                                 <div flex>Include Symbols</div>
                                 <paper-checkbox checked="{{customProfile.includeSymbols}}"></paper-checkbox>
@@ -163,6 +179,7 @@
             deadboltProfile: null,
             customProfile: {
                 name: "Custom Profile",
+                engineId: 0,
                 includeSymbols: true,
                 caseSensitive: true,
                 passwordLength: 15,
@@ -179,6 +196,7 @@
             profileList: null,
             showPhrase: false,
             passPhrase: '',
+            encodingAlgorithms: deadboltPasswordGenerator.getAvailableEngines(),
             applySettings: function (settings) {
                 this.profileList = settings.profiles;
                 if (this.profileList != undefined && this.profileList != null && this.profileList.length > 0) {
