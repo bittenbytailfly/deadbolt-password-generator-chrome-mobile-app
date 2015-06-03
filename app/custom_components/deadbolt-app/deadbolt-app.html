@@ -18,12 +18,12 @@
     <http://www.gnu.org/licenses/>.
  -->
 
-<link rel="import" href="../../bower_components/core-toolbar/core-toolbar.html">
-<link rel="import" href="../../bower_components/core-menu/core-menu.html">
+<link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
-<link rel="import" href="../../bower_components/core-header-panel/core-header-panel.html">
-<link rel="import" href="../../bower_components/core-drawer-panel/core-drawer-panel.html">
-<link rel="import" href="../../bower_components/core-icons/core-icons.html">
+<link rel="import" href="../../bower_components/paper-header-panel/paper-header-panel.html">
+<link rel="import" href="../../bower_components/paper-drawer-panel/paper-drawer-panel.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="../../bower_components/paper-slider/paper-slider.html">
@@ -33,25 +33,23 @@
 <link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
-<link rel="import" href="../../bower_components/paper-dialog/paper-dialog-transition.html">
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
-<link rel="import" href="../../bower_components/core-pages/core-pages.html">
-<link rel="import" href="../../bower_components/core-menu/core-menu.html">
-<link rel="import" href="../../bower_components/core-icon/core-icon.html">
-<link rel="import" href="../../bower_components/core-a11y-keys/core-a11y-keys.html">
+<link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/iron-a11y-keys/iron-a11y-keys.html">
 <link rel="import" href="../pin-option/pin-option.html" />
 <link rel="import" href="../password-reveal/password-reveal.html" />
 <link rel="import" href="../settings-repository/settings-repository.html" />
 
-<polymer-element name="deadbolt-app">
+<dom-module id="deadbolt-app">
     <template>
         <link href="deadbolt-app.css" rel="stylesheet" />
 
-        <core-drawer-panel id="drawerPanel" rightdrawer disableswipe drawerwidth="80%" forcenarrow>
+        <paper-drawer-panel id="drawerPanel" rightdrawer disableswipe drawerwidth="80%" forcenarrow>
 
-            <core-header-panel drawer mode="seamed">
-                <core-toolbar id="navheader'">
-                    <div class="bottom fit" horizontal layout>
+            <paper-header-panel drawer mode="seamed">
+                <paper-toolbar id="navheader'">
+                    <div class="bottom fit" class="horizontal layout">
                         <paper-tabs selected="{{selectedProfileMode}}" flex id="profileTabs">
                             <paper-tab>
                                 Custom
@@ -61,7 +59,7 @@
                             </paper-tab>
                         </paper-tabs>
                     </div>
-                </core-toolbar>
+                </paper-toolbar>
 
                 <div vertical layout fit>
 
@@ -101,27 +99,27 @@
                                     </div>
                                 </div>
                                 <div hidden?="{{profileList == null || profileList.length == 0}}" flex>
-                                    <core-menu selected="{{profileSelected}}" id="profileSelector">
-                                        <template repeat="{{profile in profileList}}">
+                                    <paper-menu selected="{{profileSelected}}" id="profileSelector">
+                                        <template is="dom-repeat" items="{{profile in profileList}}">
                                             <paper-item>{{profile.name}}</paper-item>
                                         </template>
-                                    </core-menu>
+                                    </paper-menu>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-            </core-header-panel>
+            </paper-header-panel>
 
-            <core-header-panel main mode="seamed">
-                <core-toolbar id="mainheader">
+            <paper-header-panel main mode="seamed">
+                <paper-toolbar id="mainheader">
                     <span flex>
                         <img src="deadbolt-logo.png" style="height:25px;margin-top:8px;" />
                     </span>
                     <paper-icon-button id="importProfilesButton" icon="file-download" on-click="{{ importProfiles }}"></paper-icon-button>
                     <paper-icon-button id="navicon" icon="menu"></paper-icon-button>
-                </core-toolbar>
+                </paper-toolbar>
                 <div class="content">
                     <div center horizontal layout id="toggleShowPhrase">
                         <div flex>Show Memorable Phrase</div>
@@ -131,16 +129,16 @@
                     <div>
                         <paper-input-decorator floatinglabel label="Memorable Phrase">
                             <input is="core-input" type="{{showPhrase ? 'text' : 'password'}}" value="{{passPhrase}}">
-                            <core-a11y-keys keys="enter" on-keys-pressed="{{enterPressed}}"></core-a11y-keys>
+                            <iron-a11y-keys keys="enter" on-keys-pressed="{{enterPressed}}"></iron-a11y-keys>
                             </input>
                         </paper-input-decorator>
                         <password-reveal id="passwordReveal" passphrase="{{passPhrase}}" deadboltprofile="{{deadboltProfile}}"></password-reveal>
                     </div>
                 </div>
 
-            </core-header-panel>
+            </paper-header-panel>
 
-        </core-drawer-panel>
+        </paper-drawer-panel>
 
         <paper-dialog id="profileImportDialog" backdrop autoclosedisabled layered="false" transition="core-transition-center">
             <p><strong>Import Profiles from Chrome Extension</strong></p>
@@ -159,7 +157,8 @@
 
     </template>
     <script>
-        Polymer('deadbolt-app', {
+        Polymer({
+            is: 'deadbolt-app',
             deadboltProfile: null,
             customProfile: {
                 name: "Custom Profile",
@@ -188,7 +187,6 @@
                 }
             },
             ready: function () {
-                this.super();
                 var self = this;
                 var navicon = this.$.navicon;
                 var tabs = this.$.profileTabs;
@@ -260,4 +258,4 @@
             }
         });
     </script>
-</polymer-element>
+</dom-module>

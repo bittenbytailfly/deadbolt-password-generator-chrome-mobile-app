@@ -20,7 +20,7 @@
 <link rel="import" href="../../bower_components/paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 
-<polymer-element name="pin-option" attributes="usePin pinNumber">
+<dom-module id="pin-option" attributes="usePin pinNumber">
     <template>
         <link href="pin-option.css" rel="stylesheet" />
         <div center horizontal layout class="option" style="visibility: {{usePin ? 'visible' : 'hidden'}}">
@@ -32,9 +32,12 @@
     </template>
     <script>
         //TODO: Need to observer the usePin property to reset PIN to zeros on off.
-        Polymer('pin-option', {
-            usePin: false,
-            pinNumber: '0000',
+        Polymer({
+            is: 'pin-option',
+            properties: {
+                usePin: false,
+                pinNumber: '0000'
+            },
             focusAction: function (e) {
                 e.target.value = '';
             },
@@ -54,19 +57,19 @@
                 }
                 this.readPinValue();
             },
-            readPinValue: function(){
+            readPinValue: function () {
                 this.pinNumber = this.$.pin1.value + '' +
                     this.$.pin2.value +
                     this.$.pin3.value +
                     this.$.pin4.value;
             },
-            ready: function() {
-                this.super();
-                this.$.pin1.value = this.pinNumber.substr(0, 1);
-                this.$.pin2.value = this.pinNumber.substr(1, 1);
-                this.$.pin3.value = this.pinNumber.substr(2, 1);
-                this.$.pin4.value = this.pinNumber.substr(3, 1);
+            ready: function () {
+                console.log(this.properties);
+                this.$.pin1.value = this.properties.pinNumber.substr(0, 1);
+                this.$.pin2.value = this.properties.pinNumber.substr(1, 1);
+                this.$.pin3.value = this.properties.pinNumber.substr(2, 1);
+                this.$.pin4.value = this.properties.pinNumber.substr(3, 1);
             }
         });
     </script>
-</polymer-element>
+</dom-module>
