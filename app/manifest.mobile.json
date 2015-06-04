@@ -1,6 +1,6 @@
 {
     "packageId": "com.bittenbytailfly.deadboltpasswordgenerator",
-    "versionCode": 2,
+    "versionCode": 3,
     "CFBundleVersion": "1.1.1",
     "icons": {
       "192": "img/icon192.png",
